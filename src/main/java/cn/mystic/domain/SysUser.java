@@ -27,5 +27,4 @@ public class SysUser {
     private String role;
 
     public SysUser() {}
-
 }
