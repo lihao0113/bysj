@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<title>登录界面</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}" href="../static/css/user.css"/>
+	</head>
+
+	<body style="background: url(../static/img/login-background.jpg) center center / cover no-repeat fixed;">
+		<div class="wrap">
+			<div class="login-container">
+				<div class="login-panel">
+					<h2>用户登录</h2>
+					<div class="row">
+						<input id="username" type="text" class="text" spellcheck="false" placeholder="username"/>
+					</div>
+					<div class="row">
+						<input id="password" type="password" class="text" placeholder="password"/>
+					</div>
+					<div class="row">
+						<input id="submit" type="button" class="button" value="登录" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">var path = '/bysj'</script>
+	<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+	<script type="text/javascript" th:src="@{/js/sigin.js}"></script>
+</html>
