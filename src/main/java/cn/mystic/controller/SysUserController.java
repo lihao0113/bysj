@@ -28,11 +28,6 @@ public class SysUserController {
         OutputUtil.print(response,res);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String test() {
-        return "login";
-    }
-
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public void signin(HttpServletRequest request, HttpServletResponse response, String username, String password) {
         JSONObject res = userService.signin(username, password);

@@ -17,18 +17,19 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // TODO Auto-generated method stub
         logger.info("------preHandle------");
 
         Cookie[] cookie = request.getCookies();
         if (cookie != null) {
             for (int i = 0; i < cookie.length; i++) {
-
+                if ("userId".equals(cookie[i].getName())){
+                    return true;
+                }
             }
         }
 
         logger.info("------:跳转到login页面！");
-        response.sendRedirect(request.getContextPath() + "/user/login");
+        response.sendRedirect(request.getContextPath() + "/login");
         return false;
     }
 

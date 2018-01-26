@@ -1,3 +1,4 @@
+
 $("#submit").click(function(){
 	var username = $("#username").val();
 	var password = $("#password").val();
@@ -9,7 +10,7 @@ $("#submit").click(function(){
             alert("登录成功");
             document.cookie = "userId=" + res.data.id;
 
-            // window.location.href = path + "/home";
+            window.location.href = path + "/home";
         } else {
             alert("登录失败")
         }

@@ -6,14 +6,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @ComponentScan
 @Configuration
-public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware{
+public class WebConfig extends WebMvcConfigurerAdapter {
 	private ApplicationContext applicationContext;
 	  
 	@Override
@@ -22,15 +21,15 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		super.addResourceHandlers(registry);
 	}
 
+//	@Override
+//	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+//		this.applicationContext = applicationContext;
+//	}
+//
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
-	
-/*	@Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截规则：除了login，其他都拦截判断
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("*//**").excludePathPatterns("/rwkh/home");
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login");
         super.addInterceptors(registry);
-    }*/
+    }
 }
