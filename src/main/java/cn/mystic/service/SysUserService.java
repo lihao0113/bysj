@@ -4,6 +4,7 @@ import cn.mystic.dao.SysUserRepository;
 import cn.mystic.domain.SysUser;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -26,6 +27,7 @@ public class SysUserService {
         JSONObject result = new JSONObject();
         try {
             List<SysUser> userList = userRepository.findAll();
+            result.put("code", 1);
             result.put("data", userList);
             return result;
         } catch (Exception e) {
@@ -34,6 +36,28 @@ public class SysUserService {
             return result;
         }
     }
+    /**
+     * 分页获取所有用户
+     * @return
+     */
+    public JSONObject pageAll(int pageNumber, int pageSize) {
+        JSONObject result = new JSONObject();
+        try {
+            //模糊查询操作
+//            ExampleMatcher exampleMatcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreNullValues();
+//            Pageable pageable = new PageRequest(Example.of(user, exampleMatcher)pageNumber -1, pageSize, new Sort(Sort.Direction.DESC, "id"));
+            Pageable pageable = new PageRequest(pageNumber -1, pageSize, new Sort(Sort.Direction.DESC, "id"));
+            Page<SysUser> users = userRepository.findAll(pageable);
+            result.put("code", 1);
+            result.put("data", users);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("code", 0);
+            return result;
+        }
+    }
+
 
     /**
      * 登录

@@ -1,10 +1,9 @@
-
 $("#submit").click(function(){
 	var username = $("#username").val();
 	var password = $("#password").val();
 
     ajax(path + "/user/signin", {username:username, password:password},login);
-    
+
     function login(res) {
         if (res.code == 1){
             alert("登录成功");

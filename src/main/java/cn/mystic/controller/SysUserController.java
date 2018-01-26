@@ -1,5 +1,6 @@
 package cn.mystic.controller;
 
+import cn.mystic.domain.SysUser;
 import cn.mystic.service.SysUserService;
 import cn.mystic.utils.OutputUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -25,6 +26,12 @@ public class SysUserController {
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public void findAll(HttpServletRequest request, HttpServletResponse response) {
         JSONObject res = userService.findAll();
+        OutputUtil.print(response,res);
+    }
+
+    @RequestMapping(value = "/pageAll", method = RequestMethod.POST)
+    public void pageAll(HttpServletRequest request, HttpServletResponse response, SysUser user, int pageNumber, int pageSize) {
+        JSONObject res = userService.pageAll(pageNumber, pageSize);
         OutputUtil.print(response,res);
     }
 
