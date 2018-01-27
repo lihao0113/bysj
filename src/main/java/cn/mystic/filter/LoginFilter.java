@@ -1,4 +1,4 @@
-/*
+
 package cn.mystic.filter;
 
 import java.io.IOException;
@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,10 +21,10 @@ import org.springframework.core.annotation.Order;
 
 
 @Order(1)
-@WebFilter(filterName = "SessionFilter", urlPatterns = "/rwkh/home")
-public class SessionFilter implements Filter {
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/login")
+public class LoginFilter implements Filter {
 
-    Logger logger = LoggerFactory.getLogger(SessionFilter.class);
+    Logger logger = LoggerFactory.getLogger(LoginFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -36,8 +37,14 @@ public class SessionFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        logger.info("------:跳转到test页面！");
-        response.sendRedirect(request.getContextPath() + "/rwkh/test");
+        Cookie[] cookie = request.getCookies();
+        if (cookie != null) {
+            for (int i = 0; i < cookie.length; i++) {
+                if ("userId".equals(cookie[i].getName())){
+                	logger.info("------:已登录，跳转到home页面！");
+                	response.sendRedirect(request.getContextPath() + "/home");}
+            }
+        }
         chain.doFilter(request, response);
     }
 
@@ -48,4 +55,4 @@ public class SessionFilter implements Filter {
     }
 
 }
-*/
+

@@ -72,7 +72,10 @@ public class SysUserService {
                     result.put("code", 1);
                     result.put("info", "登录成功");
                     result.put("data", loginUser);
-                }
+                } else {
+                	result.put("code", 0);
+                    result.put("info", "用户名或密码错误");
+				}
             } else {
                 result.put("code", 0);
                 result.put("info", "用户不存在");

@@ -6,12 +6,11 @@ $("#submit").click(function(){
 
     function login(res) {
         if (res.code == 1){
-            alert("登录成功");
             document.cookie = "userId=" + res.data.id;
 
             window.location.href = path + "/home";
         } else {
-            alert("登录失败")
+            alert(res.info)
         }
     }
 	
