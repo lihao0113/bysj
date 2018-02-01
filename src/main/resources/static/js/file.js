@@ -37,7 +37,7 @@ function download(which) {
 }
 
 function del(which) {
-    if (confirm("确定删除当前数据？")) {
+    if (confirm("确定删除？")) {
         var filename = $(which).parent().prev().text();
         ajax(path + "/file/delete", {filename:filename}, deleteFile);
         function deleteFile(res) {
