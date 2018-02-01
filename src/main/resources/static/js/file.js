@@ -6,7 +6,7 @@ function fileList(res) {
         var data = res.data;
         for (var i = 0; i < data.length; i++) {
             var sort = i + 1;
-            $('#fileTable tbody').append('<tr><td>' + sort + '</td><td>' + data[i] + '</td><td><button class="btn btn-primary" onclick="download(this)">下载</button><button onclick="del()" class="btn btn-danger">删除</button></td></tr>');
+            $('#fileTable tbody').append('<tr><td>' + sort + '</td><td>' + data[i] + '</td><td><button class="btn btn-primary" onclick="download(this)">下载</button><button onclick="del(this)" class="btn btn-danger">删除</button></td></tr>');
             $('#fileTable td').attr("style", "text-align:center");
         }
     }
@@ -34,6 +34,10 @@ function download(which) {
     window.location.href = "file/download?filename=" + filename;
 }
 
-function del() {
-
+function del(which) {
+    var filename = $(which).parent().prev().text();
+    ajax(path + "/file/delete", {filename:filename}, deleteFile);
+    function deleteFile(res) {
+        alert(res.data)
+    }
 }

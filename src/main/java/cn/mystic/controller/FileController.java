@@ -43,4 +43,10 @@ public class FileController {
     public String download(HttpServletRequest request, HttpServletResponse response, String filename) {
         return fileService.fileDownload(response, filename);
     }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public void delete(HttpServletRequest request, HttpServletResponse response, String filename) {
+        JSONObject res = fileService.deleteFile(filename);
+        OutputUtil.print(response,res);
+    }
 }

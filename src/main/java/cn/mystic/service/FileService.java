@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class FileService {
 
     public String fileUpload(MultipartFile file) {
-        if (file.isEmpty()) {
-            return "上传失败";
+        if (file == null) {
+            return "请选择文件";
         }
         String fileName = file.getOriginalFilename();
 
@@ -37,10 +37,10 @@ public class FileService {
         }
     }
 
-    public String fileDownload(HttpServletResponse response ,String filename){
+    public String fileDownload(HttpServletResponse response, String filename) {
         String filePath = System.getProperty("user.dir") + "/uploadFile";
         File file = new File(filePath + "/" + filename);
-        if(file.exists()){ //判断文件父目录是否存在
+        if (file.exists()) { //判断文件父目录是否存在
             response.reset();//重置 响应头
             response.setContentType("application/octet-stream");//告知浏览器下载文件，而不是直接打开，浏览器默认为打开
 //            response.setContentType("application/force-download");
@@ -56,7 +56,7 @@ public class FileService {
                 fis = new FileInputStream(file);
                 bis = new BufferedInputStream(fis);
                 int i = bis.read(buffer);
-                while(i != -1){
+                while (i != -1) {
                     os.write(buffer);
                     i = bis.read(buffer);
                 }
@@ -75,6 +75,21 @@ public class FileService {
             }
         }
         return null;
+    }
+
+    public JSONObject deleteFile(String filename) {
+        JSONObject result = new JSONObject();
+        String filePath = System.getProperty("user.dir") + "/uploadFile";
+        File file = new File(filePath + "/" + filename);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+            result.put("code",1);
+            result.put("data","删除成功");
+        } else {
+            result.put("code",0);
+            result.put("data","删除成功");
+        }
+        return result;
     }
 
     public JSONObject getFileList() {
