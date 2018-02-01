@@ -32,7 +32,7 @@ public class FileController {
     public String fileUpload(MultipartFile file) {
         return fileService.fileUpload(file);
     }
-    @RequestMapping(value = "/fileList", method = RequestMethod.GET)
+    @RequestMapping(value = "/fileList", method = RequestMethod.POST)
     public void findAll(HttpServletRequest request, HttpServletResponse response) {
         JSONObject res = fileService.getFileList();
         OutputUtil.print(response,res);

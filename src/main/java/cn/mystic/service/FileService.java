@@ -16,7 +16,7 @@ public class FileService {
 
     public String fileUpload(MultipartFile file) {
         if (file.isEmpty()) {
-            return "false";
+            return "上传失败";
         }
         String fileName = file.getOriginalFilename();
 

@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>wenjian</title>
+    <title>文件管理</title>
     <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+    <script>
+        ajax(path + "/file/fileList", null, fileList);
+        function fileList() {
+            if (res.code == 1){
+                var data = res.data;
+            }
+        }
+    </script>
 </head>
 <body>
 <div id="uploadForm">
@@ -13,7 +22,6 @@
 <script type="text/javascript">
 
     function fileUpload() {
-
         var formData = new FormData();
         formData.append('file', $('#file')[0].files[0]);
         $.ajax({
