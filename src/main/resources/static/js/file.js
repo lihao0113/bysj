@@ -23,7 +23,9 @@ function fileUpload() {
         processData: false,
         contentType: false
     }).done(function (res) {
-        alert(res)
+        alert(res);
+        $('#fileTable tbody').html('');
+        ajax(path + "/file/fileList", null, fileList);
     }).fail(function (res) {
         alert(res)
     });
@@ -35,9 +37,15 @@ function download(which) {
 }
 
 function del(which) {
-    var filename = $(which).parent().prev().text();
-    ajax(path + "/file/delete", {filename:filename}, deleteFile);
-    function deleteFile(res) {
-        alert(res.data)
+    if (confirm("确定删除当前数据？")) {
+        var filename = $(which).parent().prev().text();
+        ajax(path + "/file/delete", {filename:filename}, deleteFile);
+        function deleteFile(res) {
+            $('#fileTable tbody').html('');
+            ajax(path + "/file/fileList", null, fileList);
+        }
+    } else {
+        return;
     }
+
 }

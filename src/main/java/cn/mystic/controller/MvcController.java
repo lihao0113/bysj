@@ -20,7 +20,7 @@ public class MvcController {
         return "home";
     }
 
-    @RequestMapping(value = "/up_down", method = RequestMethod.GET)
+    @RequestMapping(value = "/fileTemp", method = RequestMethod.GET)
     public String fileUpDown() {
         return "file";
     }
