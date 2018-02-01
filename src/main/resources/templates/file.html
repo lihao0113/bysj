@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>wenjian</title>
+    <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+</head>
+<body>
+<div id="uploadForm">
+    <input id="file" type="file" name="file"/>
+    <button id="开始上传" type="button" onclick="fileUpload()">upload</button>
+</div>
+<script type="text/javascript">
+
+    function fileUpload() {
+
+        var formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        $.ajax({
+            url: 'file/upload',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function (res) {
+            alert(res)
+        }).fail(function (res) {
+            alert(res)
+        });
+    }
+
+</script>
+
+</body>
+</html>
