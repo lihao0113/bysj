@@ -68,8 +68,6 @@ public class SysUserService {
         SysUser checkUser = userRepository.findByUsername(user.getUsername());
         if (checkUser == null) {
         	try {
-        		user.setUsername("hhh");
-        		user.setPassword("111");
         		userRepository.save(user);
         		result.put("data", "用户添加成功");
 			} catch (Exception e) {

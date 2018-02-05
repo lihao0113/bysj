@@ -45,9 +45,10 @@ public class SysUserController {
     }
     
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void add(HttpServletRequest request, HttpServletResponse response, SysUser user) {
-    	System.out.println("jinlaile");
-        JSONObject res = userService.add(user);
+    public void add(HttpServletRequest request, HttpServletResponse response, String user) {
+    	JSONObject jsonObject = JSONObject.parseObject(user);
+    	SysUser sysUser = jsonObject.toJavaObject(SysUser.class);
+        JSONObject res = userService.add(sysUser);
         OutputUtil.print(response,res);
     }
 }
