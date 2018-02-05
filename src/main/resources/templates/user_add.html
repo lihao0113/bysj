@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>添加用户</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3" />
+<meta name="description" content="this is my page"/>
+<meta name="content-type" content="text/html; charset=UTF-8"/>
+
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+</head>
+
+<body>
+
+	<div id="userAdd">
+		<input id="username" type="text" placeholder="username" /><br /> <input
+			id="password" type="text" placeholder="username" /><br /> 
+		<select id="role">
+			<option value="1">经理</option>
+			<option value="2">员工</option>
+		</select>
+		<input id="addBtn" type="button" value="添加" />
+	</div>
+	<script type="text/javascript">var path = '/bysj'</script>
+	<script type="text/javascript" th:src="@{/js/user_add.js}"></script>
+</body>
+</html>
