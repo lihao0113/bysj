@@ -3,6 +3,7 @@ package cn.mystic.domain;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -18,7 +19,8 @@ import java.util.Date;
 public class Logger {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private Integer id;
 
     private String describtion; // 日志描述
 

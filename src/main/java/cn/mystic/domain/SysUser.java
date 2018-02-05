@@ -2,8 +2,9 @@ package cn.mystic.domain;
 
 import lombok.Data;
 
+import java.util.Date;
+
 import javax.persistence.*;
-import javax.persistence.Entity;
 /**
  * Created by lihao on 2018/1/26.
  */
@@ -12,13 +13,14 @@ import javax.persistence.Entity;
 public class SysUser {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private Integer id;
 
     private String username;
 
     private String password;
 
-    private String createTime;
+    private Date createTime;
 
     private Integer role; // 用户权限 0.管理员 1.经理 2.员工
 

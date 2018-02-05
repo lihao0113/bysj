@@ -24,5 +24,11 @@ public class MvcController {
     public String fileUpDown() {
         return "file";
     }
+    
+
+    @RequestMapping(value = "/userAdd", method = RequestMethod.GET)
+    public String add() {
+        return "user_add";
+    }
 
 }

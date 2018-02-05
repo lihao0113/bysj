@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +56,32 @@ public class SysUserService {
             result.put("code", 0);
             return result;
         }
+    }
+    
+    /**
+     * 获取所有用户
+     * @return
+     */
+    public JSONObject add(SysUser user) {
+        JSONObject result = new JSONObject();
+        user.setCreateTime(new Date());
+        SysUser checkUser = userRepository.findByUsername(user.getUsername());
+        if (checkUser == null) {
+        	try {
+        		user.setUsername("hhh");
+        		user.setPassword("111");
+        		userRepository.save(user);
+        		result.put("data", "用户添加成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.put("data", "发生异常");
+				return result;
+			}
+		} else {
+			result.put("data", "用户名已存在");
+		}
+        
+       return result;
     }
 
 

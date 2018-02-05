@@ -18,7 +18,8 @@ import java.util.List;
 public class Project {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private Integer id;
 
     private String projectId; // 所属项目id
 

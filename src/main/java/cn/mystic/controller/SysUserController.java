@@ -6,8 +6,11 @@ import cn.mystic.utils.OutputUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +41,13 @@ public class SysUserController {
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public void signin(HttpServletRequest request, HttpServletResponse response, String username, String password) {
         JSONObject res = userService.signin(username, password);
+        OutputUtil.print(response,res);
+    }
+    
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public void add(HttpServletRequest request, HttpServletResponse response, SysUser user) {
+    	System.out.println("jinlaile");
+        JSONObject res = userService.add(user);
         OutputUtil.print(response,res);
     }
 }
