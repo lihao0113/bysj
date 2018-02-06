@@ -51,4 +51,19 @@ public class SysUserController {
         JSONObject res = userService.add(sysUser);
         OutputUtil.print(response,res);
     }
+    
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void update(HttpServletRequest request, HttpServletResponse response, String user) {
+    	JSONObject jsonObject = JSONObject.parseObject(user);
+    	SysUser sysUser = jsonObject.toJavaObject(SysUser.class);
+        JSONObject res = userService.update(sysUser);
+        OutputUtil.print(response,res);
+    }
+    
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
+    	Integer userId = Integer.parseInt(id);
+        JSONObject res = userService.delete(userId);
+        OutputUtil.print(response,res);
+    }
 }
