@@ -24,7 +24,7 @@ public class Logger {
 
     private String describtion; // 日志描述
 
-    private Date createTime; // 创建时间
+    private Date time; // 时间
 
     public Logger() {
     }

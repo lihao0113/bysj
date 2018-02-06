@@ -20,6 +20,24 @@ public class SysUserService {
 	private SysUserRepository userRepository;
 
 	/**
+	 * 获取当前登录用户信息
+	 * 
+	 * @return
+	 */
+	public JSONObject findOne(SysUser currentUser) {
+		JSONObject result = new JSONObject();
+		try {
+			result.put("code", 1);
+			result.put("data", currentUser);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			return result;
+		}
+	}
+
+	/**
 	 * 获取所有用户
 	 * 
 	 * @return

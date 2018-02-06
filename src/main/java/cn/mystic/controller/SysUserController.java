@@ -1,5 +1,6 @@
 package cn.mystic.controller;
 
+import cn.mystic.annotation.CurrentUser;
 import cn.mystic.domain.SysUser;
 import cn.mystic.service.SysUserService;
 import cn.mystic.utils.OutputUtil;
@@ -25,8 +26,14 @@ public class SysUserController {
 
     @Autowired
     private SysUserService userService;
+    
+    @RequestMapping(value = "/myself", method = RequestMethod.POST)
+    public void findMyself(HttpServletRequest request, HttpServletResponse response, @CurrentUser SysUser user) {
+        JSONObject res = userService.findOne(user);
+        OutputUtil.print(response,res);
+    }
 
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/findAll", method = RequestMethod.POST)
     public void findAll(HttpServletRequest request, HttpServletResponse response) {
         JSONObject res = userService.findAll();
         OutputUtil.print(response,res);

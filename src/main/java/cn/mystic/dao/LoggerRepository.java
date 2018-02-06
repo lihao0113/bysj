@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by lihao on 2018/2/1.
  */
-public interface LoggerRepository extends JpaRepository<Logger ,String> {
+public interface LoggerRepository extends JpaRepository<Logger ,Integer> {
 }

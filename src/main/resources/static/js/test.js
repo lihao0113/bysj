@@ -12,6 +12,13 @@ $("#exit").click(function (){
 	
 });
 
+$("#userTest").click(function (){
+	ajax(path + "/project/add", {project:'11111'},projectCallback);
+	function projectCallback(res) {
+    	alert(111)
+    }
+});
+
 function clearCookie() {  
    document.cookie = "userId" + '=0;expires=' + new Date(0).toUTCString()  
 }

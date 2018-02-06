@@ -24,7 +24,7 @@ public class Task {
     @GeneratedValue
     private Integer id;
 
-    private String projectId; // 所属项目id
+    private Integer projectId; // 所属项目id
 
     private String taskName; // 任务名称
 
@@ -32,7 +32,7 @@ public class Task {
 
     private Date expriyTime;// 截止日期
 
-    private Integer taskState; // 任务状态 0.未开始 1.进行中 2.已完成
+    private String taskState; // 任务状态 0.未开始 1.进行中 2.已完成
 
     private String assignName; // 指派人姓名
 

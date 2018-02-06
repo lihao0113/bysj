@@ -22,7 +22,7 @@ public class SysUser {
 
     private Date createTime;
 
-    private Integer role; // 用户权限 0.管理员 1.经理 2.员工
+    private String role; // 用户权限 0.管理员 1.经理 2.员工
 
     public SysUser() {}
 

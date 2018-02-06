@@ -3,6 +3,9 @@ package cn.mystic.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import cn.mystic.utils.state.TaskState;
+
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +24,6 @@ public class Project {
     @GeneratedValue
     private Integer id;
 
-    private String projectId; // 所属项目id
-
     private String projectName; // 任务名称
 
     private String createUser; // 创建者（经理）
@@ -32,7 +33,11 @@ public class Project {
 
     private Date createTime; // 创建日期
 
-    private Integer projectState; // 项目状态 0.未开始 1.进行中 2.已完成
+    private String projectState; // 项目状态 0.未开始 1.进行中 2.已完成
+    
+    private Date overTime; // 完成日期
+    
+    private Date updateTime; // 修改日期
 
     public Project() {}
 }
