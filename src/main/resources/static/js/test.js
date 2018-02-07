@@ -13,7 +13,7 @@ $("#exit").click(function (){
 });
 
 $("#toastTest").click(function (){
-	showToast();
+	showToast('测试成功', 'success');
 });
 
 $("#userTest").click(function (){
@@ -27,14 +27,14 @@ function clearCookie() {
    document.cookie = "userId" + '=0;expires=' + new Date(0).toUTCString()  
 }
 
-function showToast() {
-	$.Toast("", "添加成功", "success", {
+function showToast(message,state) {
+	$.Toast("", message, state, {
     	stack: true,
         has_icon:false,
         has_close_btn:true,
         fullscreen:false,
         timeout:2000,
-        sticky:false,
+        sticky:true,
         has_progress:false,
         rtl:false,
     });	

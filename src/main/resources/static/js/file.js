@@ -23,11 +23,11 @@ function fileUpload() {
         processData: false,
         contentType: false
     }).done(function (res) {
-        alert(res);
+        showToast(res, 'success');
         $('#fileTable tbody').html('');
         ajax(path + "/file/fileList", null, fileList);
     }).fail(function (res) {
-        alert(res)
+    	  showToast(res, 'error');
     });
 }
 
@@ -41,11 +41,28 @@ function del(which) {
         var filename = $(which).parent().prev().text();
         ajax(path + "/file/delete", {filename:filename}, deleteFile);
         function deleteFile(res) {
+        	if(res.code == 1) {
+        		showToast(res.data, 'success');
+        	} else {
+        		showToast(res.data, 'error');
+        	}
             $('#fileTable tbody').html('');
             ajax(path + "/file/fileList", null, fileList);
         }
     } else {
         return;
     }
+}
 
+function showToast(message,state) {
+	$.Toast("", message, state, {
+    	stack: true,
+        has_icon:false,
+        has_close_btn:true,
+        fullscreen:false,
+        timeout:2000,
+        sticky:true,
+        has_progress:false,
+        rtl:false,
+    });	
 }

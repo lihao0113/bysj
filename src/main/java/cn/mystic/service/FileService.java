@@ -87,7 +87,7 @@ public class FileService {
 			result.put("data", "删除成功");
 		} else {
 			result.put("code", 0);
-			result.put("data", "删除成功");
+			result.put("data", "删除失败");
 		}
 		return result;
 	}
