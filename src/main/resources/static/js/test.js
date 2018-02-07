@@ -23,6 +23,10 @@ $("#userTest").click(function (){
     }
 });
 
+$("#modalTest").click(function (){
+	$('#example').modal('show')
+});
+
 function clearCookie() {  
    document.cookie = "userId" + '=0;expires=' + new Date(0).toUTCString()  
 }
