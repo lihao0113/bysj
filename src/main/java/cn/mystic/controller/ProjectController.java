@@ -30,9 +30,11 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "/pageAll", method = RequestMethod.POST)
-	public void pageAll(HttpServletRequest request, HttpServletResponse response, SysUser user, int pageNumber,
+	public void pageAll(HttpServletRequest request, HttpServletResponse response, String project, int pageNumber,
 			int pageSize) {
-		JSONObject res = projectService.pageAll(pageNumber, pageSize);
+		JSONObject jsonObject = JSONObject.parseObject(project);
+		Project bean = jsonObject.toJavaObject(Project.class);
+		JSONObject res = projectService.pageAll(bean, pageNumber, pageSize);
 		OutputUtil.print(response, res);
 	}
 

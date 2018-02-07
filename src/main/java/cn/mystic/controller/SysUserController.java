@@ -40,8 +40,10 @@ public class SysUserController {
     }
 
     @RequestMapping(value = "/pageAll", method = RequestMethod.POST)
-    public void pageAll(HttpServletRequest request, HttpServletResponse response, SysUser user, int pageNumber, int pageSize) {
-        JSONObject res = userService.pageAll(pageNumber, pageSize);
+    public void pageAll(HttpServletRequest request, HttpServletResponse response, String user, int pageNumber, int pageSize) {
+    	JSONObject jsonObject = JSONObject.parseObject(user);
+    	SysUser sysUser = jsonObject.toJavaObject(SysUser.class);
+    	JSONObject res = userService.pageAll(sysUser, pageNumber, pageSize);
         OutputUtil.print(response,res);
     }
 

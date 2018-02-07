@@ -48,9 +48,8 @@ public class ProjectService {
 	 * 
 	 * @return
 	 */
-	public JSONObject pageAll(int pageNumber, int pageSize) {
+	public JSONObject pageAll(Project project, int pageNumber, int pageSize) {
 		JSONObject result = new JSONObject();
-		Project project = new Project();
 		try {
 			// 模糊查询操作
 			Pageable pageable = new PageRequest(pageNumber - 1, pageSize);
