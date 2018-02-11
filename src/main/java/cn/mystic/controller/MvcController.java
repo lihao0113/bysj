@@ -31,9 +31,4 @@ public class MvcController {
         return "user_add";
     }
     
-    @RequestMapping(value = "/myhtml", method = RequestMethod.GET)
-    public String myHtml() {
-        return "MyHtml";
-    }
-
 }
