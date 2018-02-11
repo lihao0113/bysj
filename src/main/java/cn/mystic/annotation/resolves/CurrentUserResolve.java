@@ -17,24 +17,24 @@ import cn.mystic.domain.SysUser;
 
 @Component
 public class CurrentUserResolve implements HandlerMethodArgumentResolver {
-	
-    @Autowired
-    private SysUserRepository sysUserRepository; // 注入sysUserRepository
+
+	@Autowired
+	private SysUserRepository sysUserRepository; // 注入sysUserRepository
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		 HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		 SysUser user = null;
-		 Cookie[] cookie = request.getCookies();
-	        if (cookie != null) {
-	            for (int i = 0; i < cookie.length; i++) {
-	                if ("userId".equals(cookie[i].getName())){
-	                    user = sysUserRepository.findOne(Integer.parseInt(cookie[i].getValue()));
-	                    break;
-	                }
-	            }
-	        }
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		SysUser user = null;
+		Cookie[] cookie = request.getCookies();
+		if (cookie != null) {
+			for (int i = 0; i < cookie.length; i++) {
+				if ("userId".equals(cookie[i].getName())) {
+					user = sysUserRepository.findOne(Integer.parseInt(cookie[i].getValue()));
+					break;
+				}
+			}
+		}
 		return user;
 	}
 

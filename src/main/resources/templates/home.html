@@ -11,15 +11,14 @@
 <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
 <script type="text/javascript" th:src="@{/js/toast.script.js}"></script>
-<!-- <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script> -->
-<script type="text/javascript" th:src="@{/js/bootstrap-modal.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 <script type="text/javascript" th:src="@{/js/echarts.js}"></script>
 </head>
 <body>
 	<div>this is my page</div>
-	<button id="exit">退出</button>
-	<button id="userTest">获取用户的测试</button>
-	<button id="toastTest">弹出测试</button>
+	<button id="exit" class="btn btn-danger">退出</button>
+	<button id="userTest" class="btn btn-primary">获取用户的测试</button>
+	<button id="toastTest" class="btn btn-primary">弹出测试</button>
 	<button id="openBtn" class="btn btn-primary" data-toggle="modal"
 		data-target="#myModal">演示模态框</button>
 	<!-- 添加用户模态框（Modal） -->
@@ -68,8 +67,13 @@
 			</div>
 		</div>
 	</div>
-	
-	<div id="echart_demo" style="width:300px;height:200px;">
+
+	<div id="echart_demo" style="width:300px;height:200px;"></div>
+	<div class="progress" style="width:120px">
+		<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+			aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+			<span class="sr-only">60% 完成</span>
+		</div>
 	</div>
 	<script type="text/javascript">
 		var path = '/bysj';
