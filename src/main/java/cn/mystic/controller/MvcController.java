@@ -14,6 +14,17 @@ public class MvcController {
     public String login() {
         return "login";
     }
+    
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index() {
+        return "index";
+    }
+    
+    
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String dashboard() {
+        return "dashboard";
+    }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home() {
