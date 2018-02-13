@@ -31,7 +31,7 @@ public class MvcController {
         return "home";
     }
 
-    @RequestMapping(value = "/fileTemp", method = RequestMethod.GET)
+    @RequestMapping(value = "/fileList", method = RequestMethod.GET)
     public String fileUpDown() {
         return "file";
     }
@@ -40,6 +40,12 @@ public class MvcController {
     @RequestMapping(value = "/userAdd", method = RequestMethod.GET)
     public String add() {
         return "user_add";
+    }
+    
+
+    @RequestMapping(value = "/userList", method = RequestMethod.GET)
+    public String userList() {
+        return "user_list";
     }
     
 }
