@@ -1,3 +1,4 @@
+
 var option = {
 	color : [ '#3398DB' ],
 	tooltip : {

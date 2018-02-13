@@ -8,7 +8,7 @@ $("#submit").click(function(){
         if (res.code == 1){
             document.cookie = "userId=" + res.data.id;
 
-            window.location.href = path + "/home";
+            window.location.href = path + "/index";
         } else {
             alert(res.info)
         }

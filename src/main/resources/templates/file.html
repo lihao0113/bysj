@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>文件管理</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/toast.style.min.css}"
+<meta charset="UTF-8" />
+<title>文件管理</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"
+	href="../static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/toast.style.min.css}"
 	href="../static/css/toast.style.min.css" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
-    <script type="text/javascript" th:src="@{/js/toast.script.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+<script type="text/javascript" th:src="@{/js/toast.script.js}"></script>
 </head>
 <body>
-<div id="uploadForm" class="row" style="padding: 15px;">
-    <input class="col-md-3" id="file" type="file" name="file"/>
-    <button id="upload" class="col-md-1 btn btn-success " style="height:25px; width:80px; padding:0px;" type="button"
-            onclick="fileUpload()">开始上传
-    </button>
-</div>
-<div id="fileList" class="table-responsive">
-    <table id="fileTable" class="table">
-        <thead>
-        <td>序号</td>
-        <td>文件名</td>
-        <td>操作</td>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-<script type="text/javascript">var path = '/bysj'</script>
+	<div id="uploadForm" class="row" style="padding: 15px;">
+		<input class="col-md-3" id="file" type="file" name="file" />
+		<button id="upload" class="col-md-1 btn btn-success "
+			style="height:25px; width:80px; padding:0px;" type="button"
+			onclick="fileUpload()">开始上传</button>
+	</div>
+	<div id="fileList" class="table-responsive">
+		<table id="fileTable" class="table">
+			<thead>
+				<td>序号</td>
+				<td>文件名</td>
+				<td>操作</td>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">var path = '/bysj'</script>
 
-<script type="text/javascript" th:src="@{/js/file.js}"></script>
+	<script type="text/javascript" th:src="@{/js/file.js}"></script>
 
 </body>
 </html>

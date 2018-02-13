@@ -41,8 +41,8 @@ public class LoginFilter implements Filter {
         if (cookie != null) {
             for (int i = 0; i < cookie.length; i++) {
                 if ("userId".equals(cookie[i].getName())){
-                	logger.info("------:已登录，跳转到home页面！");
-                	response.sendRedirect(request.getContextPath() + "/home");}
+                	logger.info("------:已登录，跳转到index页面！");
+                	response.sendRedirect(request.getContextPath() + "/index");}
             }
         }
         chain.doFilter(request, response);

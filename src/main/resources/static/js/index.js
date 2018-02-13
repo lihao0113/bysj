@@ -1,9 +1,11 @@
 
-$("#home").click(function() {
-	$('#myFrame').attr("src", "/bysj/home");
-	$('#')
+$('#test').attr("style", "color: #000;font-style: italic;font-weight: bold;");
+$('#tabTop').children('li').click(function() {
+	$('#tabTop').children('li').each(function(index, item) {
+		$(item).attr("style", "");
+	});
+	$(this).attr("style", "font-style: italic;font-weight: bold;");
 });
-
 
 $("#exit").click(function() {
 	clearCookie();
