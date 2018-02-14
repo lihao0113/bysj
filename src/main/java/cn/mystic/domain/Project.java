@@ -40,4 +40,70 @@ public class Project {
     private Date updateTime; // 修改日期
 
     public Project() {}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public List<SysUser> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<SysUser> users) {
+		this.users = users;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getProjectState() {
+		return projectState;
+	}
+
+	public void setProjectState(String projectState) {
+		this.projectState = projectState;
+	}
+
+	public Date getOverTime() {
+		return overTime;
+	}
+
+	public void setOverTime(Date overTime) {
+		this.overTime = overTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+    
+    
 }

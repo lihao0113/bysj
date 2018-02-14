@@ -40,4 +40,69 @@ public class Task {
 
     public Task() {}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getExpriyTime() {
+		return expriyTime;
+	}
+
+	public void setExpriyTime(Date expriyTime) {
+		this.expriyTime = expriyTime;
+	}
+
+	public String getTaskState() {
+		return taskState;
+	}
+
+	public void setTaskState(String taskState) {
+		this.taskState = taskState;
+	}
+
+	public String getAssignName() {
+		return assignName;
+	}
+
+	public void setAssignName(String assignName) {
+		this.assignName = assignName;
+	}
+
+	public String getFinishName() {
+		return finishName;
+	}
+
+	public void setFinishName(String finishName) {
+		this.finishName = finishName;
+	}
+
+    
 }

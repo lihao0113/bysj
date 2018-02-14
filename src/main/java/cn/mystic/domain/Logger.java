@@ -28,4 +28,29 @@ public class Logger {
 
     public Logger() {
     }
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDescribtion() {
+		return describtion;
+	}
+
+	public void setDescribtion(String describtion) {
+		this.describtion = describtion;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+    
 }
