@@ -28,13 +28,13 @@
 				<li><a id="" href="#team" data-toggle="tab">组织</a></li>
 			</ul>
 		</div>
-		<div class="col-md-2 pull-right">
+		<div class="col-md-3 pull-right">
 			<!-- Single button -->
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary dropdown-toggle"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 					style="border:0px">
-					<span class="glyphicon glyphicon-user"></span> 张三 <span
+					<span class="glyphicon glyphicon-user"> <span id="loginUser">张三</span>	</span> <span
 						class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
@@ -44,7 +44,7 @@
 			</div>
 			<button type="button" class="btn btn-primary" style="border:0px"
 				id="exit">退出</button>
-			<button type="button" class="btn btn-primary" style="border:0px">关于</button>
+			<button id="about" type="button" class="btn btn-primary" style="border:0px">关于</button>
 		</div>
 	</div>
 	<div class="tab-content">
@@ -70,6 +70,7 @@
 				data-toggle="" src="/bysj/dashboard"></iframe>
 		</div>
 	</div>
+	<script type="text/javascript">var path = '/bysj';</script>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>

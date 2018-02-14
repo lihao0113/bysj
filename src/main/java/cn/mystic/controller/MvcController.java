@@ -48,4 +48,8 @@ public class MvcController {
         return "user_list";
     }
     
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String about() {
+        return "about";
+    }
 }
