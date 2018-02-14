@@ -69,6 +69,13 @@ public class SysUserController {
         OutputUtil.print(response,res);
     }
     
+    
+    @RequestMapping(value = "/updatePass", method = RequestMethod.POST)
+    public void updatePass(HttpServletRequest request, HttpServletResponse response, @CurrentUser SysUser currentUser, String oldPassword, String newPassword) {
+    	JSONObject res = userService.updatePass(currentUser, oldPassword, newPassword);
+        OutputUtil.print(response,res);
+    }
+    
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
     	Integer userId = Integer.parseInt(id);

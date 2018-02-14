@@ -1,9 +1,31 @@
+var currentUser;
 ajax(path + "/user/myself", null, loginUserCallback);
 function loginUserCallback (res){
 	if (res.code == 1){
-		$('#loginUser').text(res.data.username);
+		currentUser = res.data;
+		$('#loginUser').text(currentUser.username);
 	}
 }
+
+$('#sumbitPass').click(function (){
+	var oldPassword = $('#oldPassword').val();
+	var newPassword = $('#newPassword').val();
+	if (currentUser.password == oldPassword) {
+		ajax(path + "/user/updatePass", {newPassword:newPassword, oldPassword:oldPassword}, updatePassCallback);
+		function updatePassCallback (res){
+			if (res.code == 1){
+				var message = res.data;
+				showToast(message, 'success');
+				$("#updatePassModal").modal('hide');
+			} else {
+				showToast(message, 'error');
+			}
+		}
+	} else {
+		showToast("原密码错误，请重新输入", 'error');
+	}
+	
+});
 
 $('#test').attr("style", "color: #000;font-style: italic;font-weight: bold;");
 

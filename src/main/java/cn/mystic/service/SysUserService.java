@@ -127,6 +127,38 @@ public class SysUserService {
 
 		return result;
 	}
+	
+	/**
+	 * 修改用户
+	 * 
+	 * @return
+	 */
+	public JSONObject updatePass(SysUser currentUser, String oldPassword, String newPassword) {
+		JSONObject result = new JSONObject();
+		SysUser checkUser = userRepository.findByUsername(currentUser.getUsername());
+		if (checkUser != null) {
+			try {
+				if (checkUser.getPassword().equals(oldPassword)) {
+					checkUser.setPassword(newPassword);
+					userRepository.save(currentUser);
+					result.put("code", 1);
+					result.put("data", "密码修改成功");
+				} else {
+					result.put("code", 0);
+					result.put("data", "原密码输入错误");
+				}		
+			} catch (Exception e) {
+				e.printStackTrace();
+				result.put("code", 0);
+				result.put("data", "发生异常，修改失败");
+				return result;
+			}
+		} else {
+			result.put("code", 0);
+			result.put("data", "用户不存在");
+		}
+		return result;
+	}
 
 	/**
 	 * 删除用户
