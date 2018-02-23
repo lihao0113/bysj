@@ -38,6 +38,12 @@ public class SysUserController {
         JSONObject res = userService.findAll();
         OutputUtil.print(response,res);
     }
+    
+    @RequestMapping(value = "/findAll1", method = RequestMethod.POST)
+    public void findAll1(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject res = userService.findAll1();
+        OutputUtil.print(response,res);
+    }
 
     @RequestMapping(value = "/pageAll", method = RequestMethod.POST)
     public void pageAll(HttpServletRequest request, HttpServletResponse response, String user, int pageNumber, int pageSize) {

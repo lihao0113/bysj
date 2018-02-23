@@ -2,13 +2,17 @@ package cn.mystic.service;
 
 import cn.mystic.dao.SysUserRepository;
 import cn.mystic.domain.SysUser;
+
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihao on 2018/1/26.
@@ -18,6 +22,30 @@ public class SysUserService {
 
 	@Autowired
 	private SysUserRepository userRepository;
+	
+	/**
+	 * 获取所有用户
+	 * 
+	 * @return
+	 */
+	public JSONObject findAll1() {
+		JSONObject result = new JSONObject();
+		try {
+			List<SysUser> userList = userRepository.findAll();
+			JSONArray array = new JSONArray();
+			for (SysUser item : userList) {
+				array.add(item);
+			}
+			result.put("current", 1);
+			result.put("rowCount", 5);
+			result.put("rows", array);
+			result.put("total", array.size());
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return result;
+		}
+	}
 
 	/**
 	 * 获取当前登录用户信息
