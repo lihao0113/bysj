@@ -1,12 +1,12 @@
 var grid = $("#grid-data").bootgrid({
 	ajax : true,
-	url : path + "/user/findAll1",
-	post : function() {
+	url : path + "/user/pageAll",
+/*	post : function() {
 		return {
 			current : 1,
 			rowCount : 10
 		}
-	},
+	},*/
 	converters : {
 		datetime : {
 			from : function(value) {

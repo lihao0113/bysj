@@ -24,22 +24,28 @@ public class SysUserService {
 	private SysUserRepository userRepository;
 	
 	/**
-	 * 获取所有用户
+	 * 分页获取所有用户
 	 * 
 	 * @return
 	 */
-	public JSONObject findAll1() {
+	public JSONObject pageAll(SysUser user, String searchPhrase, String current, String rowCount) {
 		JSONObject result = new JSONObject();
 		try {
+			int pageNumber = Integer.valueOf(current);
+			int pageSize = Integer.valueOf(rowCount);
+			int first = (pageNumber - 1) * pageSize;
+			int last = pageNumber * pageSize;
 			List<SysUser> userList = userRepository.findAll();
+			List<SysUser> users = userRepository.findUsers(searchPhrase, first, last);
 			JSONArray array = new JSONArray();
-			for (SysUser item : userList) {
+			for (SysUser item : users) {
 				array.add(item);
 			}
-			result.put("current", 1);
-			result.put("rowCount", 5);
+			int total = userList.size();
+			result.put("current", current);
+			result.put("rowCount", rowCount);
 			result.put("rows", array);
-			result.put("total", array.size());
+			result.put("total", total);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,7 +94,7 @@ public class SysUserService {
 	 * 分页获取所有用户
 	 * 
 	 * @return
-	 */
+	 *//*
 	public JSONObject pageAll(SysUser user, int pageNumber, int pageSize) {
 		JSONObject result = new JSONObject();
 		try {
@@ -105,7 +111,7 @@ public class SysUserService {
 			result.put("code", 0);
 			return result;
 		}
-	}
+	}*/
 
 	/**
 	 * 添加用户

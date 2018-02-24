@@ -39,17 +39,9 @@ public class SysUserController {
         OutputUtil.print(response,res);
     }
     
-    @RequestMapping(value = "/findAll1", method = RequestMethod.POST)
-    public void findAll1(HttpServletRequest request, HttpServletResponse response) {
-        JSONObject res = userService.findAll1();
-        OutputUtil.print(response,res);
-    }
-
     @RequestMapping(value = "/pageAll", method = RequestMethod.POST)
-    public void pageAll(HttpServletRequest request, HttpServletResponse response, String user, int pageNumber, int pageSize) {
-    	JSONObject jsonObject = JSONObject.parseObject(user);
-    	SysUser sysUser = jsonObject.toJavaObject(SysUser.class);
-    	JSONObject res = userService.pageAll(sysUser, pageNumber, pageSize);
+    public void findAll1(HttpServletRequest request, HttpServletResponse response, SysUser user, String current, String rowCount, String searchPhrase) {
+        JSONObject res = userService.pageAll(user, searchPhrase, current, rowCount);
         OutputUtil.print(response,res);
     }
 
