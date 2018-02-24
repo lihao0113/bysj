@@ -1,3 +1,14 @@
+$("#updatePass").click(function (){
+	$('#updatePassModal input').each(function (){
+		this.value = "";
+	});
+});
+
+$("#myInfo").click(function (){
+	$('#infoModal input').each(function (){
+		this.value = "";
+	});
+});
 var currentUser;
 ajax(path + "/user/myself", null, loginUserCallback);
 function loginUserCallback (res){

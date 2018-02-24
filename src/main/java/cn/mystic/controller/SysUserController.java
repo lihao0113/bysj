@@ -29,7 +29,13 @@ public class SysUserController {
     
     @RequestMapping(value = "/myself", method = RequestMethod.POST)
     public void findMyself(HttpServletRequest request, HttpServletResponse response, @CurrentUser SysUser user) {
-        JSONObject res = userService.findOne(user);
+        JSONObject res = userService.findMyself(user);
+        OutputUtil.print(response,res);
+    }
+    
+    @RequestMapping(value = "/findOne", method = RequestMethod.POST)
+    public void findOne(HttpServletRequest request, HttpServletResponse response, String id) {
+        JSONObject res = userService.findOne(id);
         OutputUtil.print(response,res);
     }
 

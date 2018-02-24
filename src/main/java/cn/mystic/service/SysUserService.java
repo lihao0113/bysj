@@ -54,11 +54,31 @@ public class SysUserService {
 	}
 
 	/**
+	 * 获取一个用户
+	 * 
+	 * @return
+	 */
+	public JSONObject findOne(String id) {
+		JSONObject result = new JSONObject();
+		try {
+			Integer userId = Integer.valueOf(id);
+			SysUser sysUser = userRepository.findOne(userId);
+			result.put("code", 1);
+			result.put("data", sysUser);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			return result;
+		}
+	}
+	
+	/**
 	 * 获取当前登录用户信息
 	 * 
 	 * @return
 	 */
-	public JSONObject findOne(SysUser currentUser) {
+	public JSONObject findMyself(SysUser currentUser) {
 		JSONObject result = new JSONObject();
 		try {
 			result.put("code", 1);
@@ -91,29 +111,6 @@ public class SysUserService {
 	}
 
 	/**
-	 * 分页获取所有用户
-	 * 
-	 * @return
-	 *//*
-	public JSONObject pageAll(SysUser user, int pageNumber, int pageSize) {
-		JSONObject result = new JSONObject();
-		try {
-			// 模糊查询操作
-			Pageable pageable = new PageRequest(pageNumber - 1, pageSize);
-			ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-					.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreNullValues();
-			Page<SysUser> users = userRepository.findAll(Example.of(user, exampleMatcher), pageable);
-			result.put("code", 1);
-			result.put("data", users);
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("code", 0);
-			return result;
-		}
-	}*/
-
-	/**
 	 * 添加用户
 	 * 
 	 * @return
@@ -125,13 +122,16 @@ public class SysUserService {
 		if (checkUser == null) {
 			try {
 				userRepository.save(user);
+				result.put("code", 1);
 				result.put("data", "用户添加成功");
 			} catch (Exception e) {
 				e.printStackTrace();
+				result.put("code", 0);
 				result.put("data", "发生异常，添加失败");
 				return result;
 			}
 		} else {
+			result.put("code", 0);
 			result.put("data", "用户名已存在");
 		}
 
