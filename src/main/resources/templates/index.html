@@ -13,6 +13,7 @@
 <script type="text/javascript" th:src="@{/js/toast.script.js}"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 <script type="text/javascript" th:src="@{/js/echarts.js}"></script>
+<script type="text/javascript" th:src="@{/js/moment.js}"></script>
 </head>
 <body>
 	<div class="row"
@@ -34,17 +35,20 @@
 				<button type="button" class="btn btn-primary dropdown-toggle"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 					style="border:0px">
-					<span class="glyphicon glyphicon-user"> <span id="loginUser"></span>	</span> <span
-						class="caret"></span>
+					<span class="glyphicon glyphicon-user"> <span id="loginUser"></span>
+					</span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a id="myInfo" href="#" data-toggle="modal" data-target="#infoModal">我的信息</a></li>
-					<li><a id="updatePass" href="#" data-toggle="modal" data-target="#updatePassModal">修改密码</a></li>
+					<li><a id="myInfo" href="#" data-toggle="modal"
+						data-target="#infoModal">我的信息</a></li>
+					<li><a id="updatePass" href="#" data-toggle="modal"
+						data-target="#updatePassModal">修改密码</a></li>
 				</ul>
 			</div>
 			<button type="button" class="btn btn-primary" style="border:0px"
 				id="exit">退出</button>
-			<button id="about" type="button" class="btn btn-primary" style="border:0px">关于</button>
+			<button id="about" type="button" class="btn btn-primary"
+				style="border:0px">关于</button>
 		</div>
 	</div>
 	<div class="tab-content">
@@ -59,18 +63,17 @@
 				data-toggle="" src="/bysj/home"></iframe>
 		</div>
 		<div id="file" class="tab-pane">
-			<iframe id="file_iframe" scrolling="no"
-				allowtransparency="yes"
+			<iframe id="file_iframe" scrolling="no" allowtransparency="yes"
 				style="frameborder:0; border:0; marginwidth:0; marginheight:0; width:100%; min-height:550px;"
 				data-toggle="" src="/bysj/fileList"></iframe>
 		</div>
 		<div id="team" class="tab-pane">
 			<iframe id="team_iframe" scrolling="no" allowtransparency="yes"
 				style="frameborder:0; border:0; marginwidth:0; marginheight:0; width:100%; min-height:550px;"
-				data-toggle="" src="/bysj/dashboard"></iframe>
+				data-toggle="" src="/bysj/userList"></iframe>
 		</div>
 	</div>
-	
+
 	<!-- 我的信息模态框（Modal） -->
 	<div class="modal fade" id="infoModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -83,44 +86,38 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">账户名:</label>
+						<label class="col-sm-3 control-label text-right">用户编号:</label>
 						<div class="col-sm-8">
-							<input type="text" placeholder="请输入账户名" class="form-control"
-								name="username" id="username" />
+							<label id="idLab" class="col-sm-12 control-label text-left"></label>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">密码:</label>
+						<label class="col-sm-3 control-label text-right">用户名:</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="password" name="password"
-								id="password" placeholder="请输入密码..." />
+							<label id="nameLab" class="col-sm-12 control-label text-left"></label>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">用户类型:</label>
+						<label class="col-sm-3 control-label text-right">创建时间:</label>
 						<div class="col-sm-8">
-							<select name="userRole"
-								class="form-control w-lg m-r-xs pull-left">
-								<option value="2">员工</option>
-								<option value="1">经理</option>
-							</select>
+							<label id="timeLab" class="col-sm-12 control-label text-left"></label>
 						</div>
 					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 					</button>
-					<button id="sumbit" type="button" class="btn btn-primary">提交</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 修改密码模态框（Modal） -->
-	<div class="modal fade" id="updatePassModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="updatePassModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -153,7 +150,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">var path = '/bysj';</script>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +32,16 @@ public class SysUserService {
 	public JSONObject pageAll(SysUser user, String searchPhrase, String current, String rowCount) {
 		JSONObject result = new JSONObject();
 		try {
+			List<SysUser> users = new ArrayList<SysUser>();
 			int pageNumber = Integer.valueOf(current);
 			int pageSize = Integer.valueOf(rowCount);
 			int first = (pageNumber - 1) * pageSize;
-			int last = pageNumber * pageSize;
 			List<SysUser> userList = userRepository.findAll();
-			List<SysUser> users = userRepository.findUsers(searchPhrase, first, last);
+			if ("-1".equals(rowCount)) {
+				users = userRepository.findAllList(searchPhrase);
+			} else {
+				users = userRepository.findUsers(searchPhrase, first, pageSize);
+			}
 			JSONArray array = new JSONArray();
 			for (SysUser item : users) {
 				array.add(item);

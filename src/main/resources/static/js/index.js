@@ -14,7 +14,11 @@ ajax(path + "/user/myself", null, loginUserCallback);
 function loginUserCallback (res){
 	if (res.code == 1){
 		currentUser = res.data;
+		var createTime = moment(currentUser.createTime).format('YYYY-MM-DD hh:mm:ss');
 		$('#loginUser').text(currentUser.username);
+		$('#idLab').text(currentUser.id);
+		$('#nameLab').text(currentUser.username);
+		$('#timeLab').text(createTime);
 	}
 }
 
