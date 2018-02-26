@@ -66,10 +66,10 @@ public class SysUserController {
     }
     
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(HttpServletRequest request, HttpServletResponse response, String user) {
+    public void update(HttpServletRequest request, HttpServletResponse response, String user, String username) {
     	JSONObject jsonObject = JSONObject.parseObject(user);
     	SysUser sysUser = jsonObject.toJavaObject(SysUser.class);
-        JSONObject res = userService.update(sysUser);
+        JSONObject res = userService.update(sysUser, username);
         OutputUtil.print(response,res);
     }
     

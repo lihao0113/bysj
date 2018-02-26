@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,6 +93,7 @@ public class SysUserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("code", 0);
+			result.put("data", "获取用户信息失败");
 			return result;
 		}
 	}
@@ -120,6 +122,7 @@ public class SysUserService {
 	 * 
 	 * @return
 	 */
+	@Transactional
 	public JSONObject add(SysUser user) {
 		JSONObject result = new JSONObject();
 		user.setCreateTime(new Date());
@@ -148,30 +151,37 @@ public class SysUserService {
 	 * 
 	 * @return
 	 */
-	public JSONObject update(SysUser user) {
+	@Transactional
+	public JSONObject update(SysUser user, String username) {
 		JSONObject result = new JSONObject();
-		SysUser checkUser = userRepository.findByUsername(user.getUsername());
+		SysUser checkUser = userRepository.findByUsername(username);
 		if (checkUser != null) {
 			try {
+				user.setId(checkUser.getId());
+				user.setCreateTime(checkUser.getCreateTime());
 				userRepository.save(user);
+				result.put("code", 1);
 				result.put("data", "用户修改成功");
+				return result;
 			} catch (Exception e) {
 				e.printStackTrace();
+				result.put("code", 0);
 				result.put("data", "发生异常，修改失败");
 				return result;
 			}
 		} else {
+			result.put("code", 0);
 			result.put("data", "用户不存在");
+			return result;
 		}
-
-		return result;
 	}
 	
 	/**
-	 * 修改用户
+	 * 修改用户密码
 	 * 
 	 * @return
 	 */
+	@Transactional
 	public JSONObject updatePass(SysUser currentUser, String oldPassword, String newPassword) {
 		JSONObject result = new JSONObject();
 		SysUser checkUser = userRepository.findByUsername(currentUser.getUsername());
@@ -204,13 +214,16 @@ public class SysUserService {
 	 * 
 	 * @return
 	 */
+	@Transactional
 	public JSONObject delete(Integer userId) {
 		JSONObject result = new JSONObject();
 		try {
 			userRepository.delete(userId);
+			result.put("code", 1);
 			result.put("data", "用户删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
+			result.put("code", 0);
 			result.put("data", "发生异常，删除失败");
 		}
 
