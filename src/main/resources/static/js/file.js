@@ -1,5 +1,4 @@
 
-
 ajax(path + "/file/fileList", null, fileList);
 function fileList(res) {
 	if (res.code == 1) {
@@ -12,6 +11,7 @@ function fileList(res) {
 		}
 		$('#fileList li span').attr("style", "float:left;width:33.3333%;text-align: center;");
 		$('.delspan').attr("style", "");
+		$('#fileList li:odd').css("background-color", "#F1F1F1")
 	}
 }
 
