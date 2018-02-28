@@ -11,7 +11,7 @@ function fileList(res) {
 		}
 		$('#fileList li span').attr("style", "float:left;width:33.3333%;text-align: center;");
 		$('.delspan').attr("style", "");
-		$('#fileList li:odd').css("background-color", "#F1F1F1")
+		$('#fileList li:odd').css("background","#F1F1F1");
 	}
 }
 

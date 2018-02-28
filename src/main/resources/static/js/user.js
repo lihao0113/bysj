@@ -71,6 +71,7 @@ $(document).ready(function() {
 			username : tempName
 		}, updateCallback);
 		function updateCallback(res) {
+			$("#grid-data").bootgrid("reload");
 			if (res.code == 1) {
 				showToast(res.data, 'success');
 			} else {
