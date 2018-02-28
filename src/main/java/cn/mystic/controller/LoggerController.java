@@ -14,14 +14,15 @@ import cn.mystic.service.LoggerService;
 import cn.mystic.utils.OutputUtil;
 
 @Controller
+@RequestMapping("/logger")
 public class LoggerController {
 
 	@Autowired
 	private LoggerService loggerService;
 	
-    @RequestMapping(value = "/pageAll", method = RequestMethod.POST)
-    public void pageAll(HttpServletRequest request, HttpServletResponse response, int pageNumber, int pageSize) {
-        JSONObject res = loggerService.pageAll(pageNumber, pageSize);
+    @RequestMapping(value = "/findTop100", method = RequestMethod.POST)
+    public void pageAll(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject res = loggerService.findTop100();
         OutputUtil.print(response,res);
     }
     

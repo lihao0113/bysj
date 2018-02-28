@@ -20,15 +20,14 @@ public class LoggerService {
 	private LoggerRepository loggerRepository;
 	
 	/**
-	 * 分页获取所有日志信息
+	 * 获取更多日志信息
 	 * 
 	 * @return
 	 */
-	public JSONObject pageAll(int pageNumber, int pageSize) {
+	public JSONObject findTop100() {
 		JSONObject result = new JSONObject();
 		try {
-			Pageable pageable = new PageRequest(pageNumber - 1, pageSize);
-			Page<Logger> loggers = loggerRepository.findAll(pageable);
+			List<Logger> loggers = loggerRepository.findTop100();
 			result.put("code", 1);
 			result.put("data", loggers);
 			return result;

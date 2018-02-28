@@ -18,6 +18,7 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
 a:hover {
 	text-decoration: none;
 	background-color: #eee;
@@ -30,7 +31,13 @@ a:hover {
 			<div id="logger" class="col-md-5">
 				<div style="padding:3px;background-color:#F1F1F1;">
 					<span style="font-weight:bold;font-size:15px;">最新动态</span> <a
-						href="" class="pull-right">MORE</a>
+						href="" class="pull-right" data-toggle="modal"
+						data-target="#loggerModal">MORE</a>
+				</div>
+				<div>
+					<ul id="log_ul" class="list-group"
+						style="width: 100%;height: 230px;overflow-y: scroll;font-size:13px;">
+					</ul>
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -50,6 +57,31 @@ a:hover {
 			</div>
 		</div>
 	</div>
+
+	<!-- 动态MORE模态框（Modal） -->
+	<div class="modal fade" id="loggerModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">更多动态</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<ul class="list-group" id="more_logger_ul"
+							style="width: 100%;overflow-y: scroll;font-size:13px;height:400px;"></ul>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 		var path = '/bysj';
 	</script>

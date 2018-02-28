@@ -14,4 +14,7 @@ public interface LoggerRepository extends JpaRepository<Logger ,Integer> {
 	
 	@Query(nativeQuery=true, value="SELECT * from logger ORDER BY TIME DESC LIMIT 20")
 	List<Logger> findTop20();
+	
+	@Query(nativeQuery=true, value="SELECT * from logger ORDER BY TIME DESC LIMIT 100")
+	List<Logger> findTop100();
 }

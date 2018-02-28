@@ -1,3 +1,50 @@
+ajax(path + "/logger/findCurrent", null, getLogger20Callback);
+
+function getLogger20Callback(res) {
+	if (res.code == 1) {
+		var now = new Date();
+		for (var i = 0; i < res.data.length; i++) {
+			var time = new Date(res.data[i].time);
+			var interval = now.valueOf() - time.valueOf();
+			var intervalStr = getInterval(now, time);
+			$('#log_ul').append('<li class="list-group-item" style="height:35px;">' + intervalStr + res.data[i].describtion + '</li>');
+		}
+		$('#log_ul li').attr("height", "10px");
+		$('#log_ul li:odd').css("background", "#F1F1F1");
+	}
+}
+
+ajax(path + "/logger/findTop100", null, getLogger100Callback);
+function getLogger100Callback(res) {
+	if (res.code == 1) {
+		var now = new Date();
+		for (var i = 0; i < res.data.length; i++) {
+			var time = new Date(res.data[i].time);
+			var interval = now.valueOf() - time.valueOf();
+			var intervalStr = getInterval(now, time);
+			$('#more_logger_ul').append('<li class="list-group-item" style="height:35px;">' + intervalStr + res.data[i].describtion + '</li>');
+		}
+		$('#more_logger_ul li').attr("height", "10px");
+		$('#more_logger_ul li:odd').css("background", "#F1F1F1");
+	}
+}
+
+function getInterval(now, time) {
+	var now = new Date();
+	var time = new Date(time);
+	var interval = now.valueOf() - time.valueOf();
+	var diff_min = parseInt(interval / (1000 * 60));
+	if (diff_min < 60) {
+		return diff_min + "分钟前";
+	}
+	if (diff_min >= 60 && diff_min < 3600) {
+		return parseInt(diff_min/60) + "小时前";
+	}
+	if (diff_min >= 3600) {
+		return parseInt(diff_min/3600) + "天前";
+	}
+	
+}
 
 var option = {
 	color : [ '#3398DB' ],
