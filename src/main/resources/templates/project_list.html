@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>项目管理</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"
+	href="../static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/toast.style.min.css}"
+	href="../static/css/toast.style.min.css" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.min.css}"
+	href="../static/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.bootgrid.min.css}"
+	href="../static/css/jquery.bootgrid.min.css" />
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+<script type="text/javascript" th:src="@{/js/toast.script.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootgrid.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/moment.js}"></script>
+<style>
+#addProject {
+	position: relative;
+	left: 120px;
+	top: 50px;
+	z-index: 999
+}
+</style>
+</head>
+<body>
+	<button id="addUser" class="btn btn-default" data-toggle="modal"
+		data-target="#addUserModal">
+		<span class="glyphicon glyphicon-plus">添加项目</span>
+	</button>
+	<!-- 添加项目模态框（Modal） -->
+	<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加项目</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">项目名:</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入项目名" class="form-control"
+								name="projectName" id="projectName" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">密码:</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="password" name="password"
+								id="password" placeholder="请输入密码..." />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">用户类型:</label>
+						<div class="col-sm-8">
+							<select id="userRole" class="form-control w-lg m-r-xs pull-left">
+								<option value="2">员工</option>
+								<option value="1">经理</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button id="addUserSumbit" type="button" class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改项目模态框（Modal） -->
+	<div class="modal fade" id="updateUserModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改用户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">账户名:</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入账户名" class="form-control"
+								name="username" id="username1" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">密码:</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="password" name="password"
+								id="password1" placeholder="请输入密码..." />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">用户类型:</label>
+						<div class="col-sm-8">
+							<select id="userRole1" class="form-control w-lg m-r-xs pull-left">
+								<option value="2">员工</option>
+								<option value="1">经理</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button id="updateUserSumbit" type="button" class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<table id="grid-data"
+					class="table table-condensed table-hover table-striped">
+					<thead>
+						<tr>
+							<th data-column-id="id" data-type="numeric">项目编号</th>
+							<th data-column-id="projectName">项目名称</th>
+							<th data-column-id="createTime" data-converter="datetime">结束日期</th>
+							<th data-column-id="createTime" data-converter="datetime">创建日期</th>
+							<th data-column-id="projectState" data-converter="projectState">项目状态</th>
+							<th data-column-id="projectState" data-converter="projectState">完成进度</th>
+							<th data-column-id="commands" data-formatter="commands"
+								data-sortable="false">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">var path = '/bysj';
+	</script>
+	<script type="text/javascript" th:src="@{/js/project.js}"></script>
+</body>
+</html>

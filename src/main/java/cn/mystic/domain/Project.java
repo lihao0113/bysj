@@ -24,7 +24,7 @@ public class Project {
     @GeneratedValue
     private Integer id;
 
-    private String projectName; // 任务名称
+    private String projectName; // 项目名称
 
     private String createUser; // 创建者（经理）
 
