@@ -30,6 +30,9 @@ public class Project {
 
     @OneToMany
     private List<SysUser> users; // 团队人员
+    
+    @OneToMany
+    private List<Task> tasks; // 任务
 
     private Date createTime; // 创建日期
 
@@ -104,6 +107,12 @@ public class Project {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-    
-    
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 }

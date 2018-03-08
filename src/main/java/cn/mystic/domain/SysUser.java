@@ -66,6 +66,4 @@ public class SysUser {
 		this.role = role;
 	}
     
-    
-
 }

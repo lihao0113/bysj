@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import java.util.Date;
 
 /**
@@ -24,7 +26,8 @@ public class Task {
     @GeneratedValue
     private Integer id;
 
-    private Integer projectId; // 所属项目id
+    @ManyToOne
+    private Project project; // 所属项目id
 
     private String taskName; // 任务名称
 
@@ -40,69 +43,67 @@ public class Task {
 
     public Task() {}
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getProjectId() {
-		return projectId;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
-	}
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
-	public String getTaskName() {
-		return taskName;
-	}
+    public String getTaskName() {
+        return taskName;
+    }
 
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public Date getExpriyTime() {
-		return expriyTime;
-	}
+    public Date getExpriyTime() {
+        return expriyTime;
+    }
 
-	public void setExpriyTime(Date expriyTime) {
-		this.expriyTime = expriyTime;
-	}
+    public void setExpriyTime(Date expriyTime) {
+        this.expriyTime = expriyTime;
+    }
 
-	public String getTaskState() {
-		return taskState;
-	}
+    public String getTaskState() {
+        return taskState;
+    }
 
-	public void setTaskState(String taskState) {
-		this.taskState = taskState;
-	}
+    public void setTaskState(String taskState) {
+        this.taskState = taskState;
+    }
 
-	public String getAssignName() {
-		return assignName;
-	}
+    public String getAssignName() {
+        return assignName;
+    }
 
-	public void setAssignName(String assignName) {
-		this.assignName = assignName;
-	}
+    public void setAssignName(String assignName) {
+        this.assignName = assignName;
+    }
 
-	public String getFinishName() {
-		return finishName;
-	}
+    public String getFinishName() {
+        return finishName;
+    }
 
-	public void setFinishName(String finishName) {
-		this.finishName = finishName;
-	}
-
-    
+    public void setFinishName(String finishName) {
+        this.finishName = finishName;
+    }
 }
