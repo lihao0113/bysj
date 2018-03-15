@@ -31,12 +31,12 @@
 </style>
 </head>
 <body>
-	<button id="addUser" class="btn btn-default" data-toggle="modal"
-		data-target="#addUserModal">
+	<button id="addProject" class="btn btn-default" data-toggle="modal"
+		data-target="#addProjectModal">
 		<span class="glyphicon glyphicon-plus">添加项目</span>
 	</button>
 	<!-- 添加项目模态框（Modal） -->
-	<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -47,35 +47,24 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">项目名:</label>
+						<label class="col-sm-3 control-label text-right">项目名称:</label>
 						<div class="col-sm-8">
 							<input type="text" placeholder="请输入项目名" class="form-control"
 								name="projectName" id="projectName" />
 						</div>
 					</div>
-
+					
 					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">密码:</label>
+						<label class="col-sm-3 control-label text-right">项目描述：</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="password" name="password"
-								id="password" placeholder="请输入密码..." />
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<label class="col-sm-3 control-label text-right">用户类型:</label>
-						<div class="col-sm-8">
-							<select id="userRole" class="form-control w-lg m-r-xs pull-left">
-								<option value="2">员工</option>
-								<option value="1">经理</option>
-							</select>
+							<textarea class="form-control" rows="4"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 					</button>
-					<button id="addUserSumbit" type="button" class="btn btn-primary">提交</button>
+					<button id="addProjectSumbit" type="button" class="btn btn-primary">提交</button>
 				</div>
 			</div>
 		</div>
@@ -136,11 +125,14 @@
 					<thead>
 						<tr>
 							<th data-column-id="id" data-type="numeric">项目编号</th>
-							<th data-column-id="projectName">项目名称</th>
+							<th data-column-id="projectName" data-formatter="projectName"
+								data-sortable="false">项目名称</th>
+							<th data-column-id="createUser">项目负责人</th>
+							<th data-column-id="overTime" data-converter="datetime">创建日期</th>
 							<th data-column-id="createTime" data-converter="datetime">结束日期</th>
-							<th data-column-id="createTime" data-converter="datetime">创建日期</th>
 							<th data-column-id="projectState" data-converter="projectState">项目状态</th>
-							<th data-column-id="projectState" data-converter="projectState">完成进度</th>
+							<th data-column-id="progress" data-formatter="progress"
+								data-sortable="false">完成进度</th>
 							<th data-column-id="commands" data-formatter="commands"
 								data-sortable="false">操作</th>
 						</tr>

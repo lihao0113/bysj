@@ -27,10 +27,9 @@ public class Project {
     private String projectName; // 项目名称
 
     private String createUser; // 创建者（经理）
-
-    @OneToMany
-    private List<SysUser> users; // 团队人员
     
+    private String remark; // 备注
+
     @OneToMany
     private List<Task> tasks; // 任务
 
@@ -66,14 +65,6 @@ public class Project {
 
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
-	}
-
-	public List<SysUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<SysUser> users) {
-		this.users = users;
 	}
 
 	public Date getCreateTime() {

@@ -30,11 +30,8 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "/pageAll", method = RequestMethod.POST)
-	public void pageAll(HttpServletRequest request, HttpServletResponse response, String project, int pageNumber,
-			int pageSize) {
-		JSONObject jsonObject = JSONObject.parseObject(project);
-		Project bean = jsonObject.toJavaObject(Project.class);
-		JSONObject res = projectService.pageAll(bean, pageNumber, pageSize);
+	public void pageAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current, String rowCount) {
+		JSONObject res = projectService.pageAll(searchPhrase, current, rowCount);
 		OutputUtil.print(response, res);
 	}
 
@@ -62,4 +59,13 @@ public class ProjectController {
 		JSONObject res = projectService.delete(userId);
 		OutputUtil.print(response, res);
 	}
+	
+
+	@RequestMapping(value = "/progress", method = RequestMethod.POST)
+	public void progress(HttpServletRequest request, HttpServletResponse response, String id) {
+		Integer projectId = Integer.parseInt(id);
+		JSONObject res = projectService.progress(projectId);
+		OutputUtil.print(response, res);
+	}
+	
 }
