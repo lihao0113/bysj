@@ -45,6 +45,25 @@ public class ProjectService {
 			return result;
 		}
 	}
+	
+	/**
+	 * 获取进行中的项目
+	 * 
+	 * @return
+	 */
+	public JSONObject findIng() {
+		JSONObject result = new JSONObject();
+		try {
+			List<Project> projects = projectRepository.findProIng();
+			result.put("code", 1);
+			result.put("data", projects);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			return result;
+		}
+	}
 
 	/**
 	 * 分页获取所有项目

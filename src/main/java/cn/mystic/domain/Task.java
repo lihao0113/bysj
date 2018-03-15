@@ -30,6 +30,8 @@ public class Task {
     private Project project; // 所属项目id
 
     private String taskName; // 任务名称
+    
+    private String remark; // 任务描述
 
     private Date createTime; // 创建日期
 
@@ -106,4 +108,13 @@ public class Task {
     public void setFinishName(String finishName) {
         this.finishName = finishName;
     }
+    
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+    
 }

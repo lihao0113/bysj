@@ -20,22 +20,40 @@ $(document).ready(function() {
 			}
 		},
 		formatters : {
+			"projectState" : function(column, row) {
+				var result;
+				switch (row.projectState) {
+				case "0":
+					result = "未开始"
+					break;
+				case "1":
+					result = "进行中"
+					break;
+				case "2":
+					result = "已完成"
+					break;
+				}
+				return "<span>" + result + " </span>";
+			},
 			"projectName" : function(column, row) {
 				return "<a>" + row.projectName + "</a>";
 			},
 			"commands" : function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
+					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>";
 			},
 			"progress" : function(column, row) {
 				var value;
-				ajax(path + "/project/progress", {id:row.id}, function (res) {
+				ajax(path + "/project/progress", {
+					id : row.id
+				}, function(res) {
 					value = res.value;
 				});
 				return "<div class=\"progress\" style=\"width:120px\">" +
-					"<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"" + value +"\"" +
-					"aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:" + value +"%;\">" +
-					"<span class=\"sr-only\">" + value +"% 完成</span>" +
+					"<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"" + value + "\"" +
+					"aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:" + value + "%;\">" +
+					"<span class=\"sr-only\">" + value + "% 完成</span>" +
 					"</div>" +
 					"</div>";
 			}
@@ -43,25 +61,37 @@ $(document).ready(function() {
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		grid.find(".command-edit").on("click", function(e) {
 			var id = $(this).data("row-id");
-			console.log(id);
-			ajax(path + "/user/findOne", {
+			ajax(path + "/project/findOne", {
 				id : id
 			}, getInfoCallback);
 			function getInfoCallback(res) {
 				if (res.code == 1) {
 					var user = res.data;
 					tempName = user.username;
-					$('#username1').val(user.username);
-					$('#password1').val(user.password);
-					$('#userRole1').val(parseInt(user.role));
-					$('#updateUserModal').modal("show");
+					$('#projectName1').val(user.username);
+					$('#remarke1').val(user.password);
+					$('#updateProjectModal').modal("show");
 				} else {
 					showToast(res.data, 'error');
 				}
 			}
 		}).end().find(".command-delete").on("click", function(e) {
 			if (confirm("你确定要删除此条记录?")) {
-				ajax(path + "/user/delete", {
+				ajax(path + "/project/delete", {
+					id : $(this).data("row-id")
+				}, deleteCallback);
+				function deleteCallback(res) {
+					if (res.code == 1) {
+						showToast(res.data, 'success');
+					} else {
+						showToast(res.data, 'error');
+					}
+				}
+				$("#grid-data").bootgrid("reload");
+			}
+		}).end().find(".command-finshed").on("click", function(e) {
+			if (confirm("你确定要完成此项目吗?")) {
+				ajax(path + "/project/delete", {
 					id : $(this).data("row-id")
 				}, deleteCallback);
 				function deleteCallback(res) {
@@ -77,12 +107,11 @@ $(document).ready(function() {
 
 	});
 	$("#updateProjectSumbit").click(function() {
-		var user = {};
-		user.username = $('#username1').val();
-		user.password = $('#password1').val();
-		user.role = $('#userRole1').val();
-		ajax(path + "/user/update", {
-			user : JSON.stringify(user),
+		var project = {};
+		project.projectName = $('#projectName1').val();
+		project.remark = $('#remarke1').val();
+		ajax(path + "/project/update", {
+			project : JSON.stringify(project),
 			username : tempName
 		}, updateCallback);
 		function updateCallback(res) {
@@ -98,18 +127,17 @@ $(document).ready(function() {
 	});
 
 	$("#addProjectSumbit").click(function() {
-		var user = {};
-		user.username = $('#username').val();
-		user.password = $('#password').val();
-		user.role = $('#userRole').val();
-		ajax(path + "/user/add", {
-			user : JSON.stringify(user)
+		var project = {};
+		project.remarke = $('#remarke').val();
+		project.projectName = $('#projectName').val();
+		ajax(path + "/project/add", {
+			project : JSON.stringify(project)
 		}, addCallback);
 		function addCallback(res) {
 			$("#grid-data").bootgrid("reload");
 			if (res.code == 1) {
 				showToast(res.data, 'success');
-				$("#addUserModal").modal('hide');
+				$("#addProjectModal").modal('hide');
 			} else {
 				showToast(res.data, 'error');
 			}

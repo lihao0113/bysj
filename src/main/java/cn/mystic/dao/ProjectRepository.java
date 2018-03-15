@@ -17,4 +17,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT * from project p WHERE p.id LIKE CONCAT('%',?1,'%') OR p.create_user LIKE CONCAT('%',?1,'%') OR p.create_time LIKE CONCAT('%',?1,'%') OR p.project_name LIKE CONCAT('%',?1,'%')")
 	List<Project> findAllList(String searchPhrase);
+	
+
+	@Query(nativeQuery = true, value = "SELECT * from project WHERE project_state = '1'")
+	List<Project> findProIng();
 }

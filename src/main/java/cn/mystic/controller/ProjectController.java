@@ -28,6 +28,12 @@ public class ProjectController {
 		JSONObject res = projectService.findAll();
 		OutputUtil.print(response, res);
 	}
+	
+	@RequestMapping(value = "/findIng", method = RequestMethod.POST)
+	public void findIng(HttpServletRequest request, HttpServletResponse response) {
+		JSONObject res = projectService.findIng();
+		OutputUtil.print(response, res);
+	}
 
 	@RequestMapping(value = "/pageAll", method = RequestMethod.POST)
 	public void pageAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current, String rowCount) {
