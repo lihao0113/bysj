@@ -4,6 +4,9 @@ $(document).ready(function() {
 		$('#addProjectModal input').each(function() {
 			this.value = "";
 		});
+		$('#addProjectModal textarea').each(function() {
+			this.value = "";
+		});
 	});
 
 	var grid = $("#grid-data").bootgrid({
@@ -15,6 +18,9 @@ $(document).ready(function() {
 					return moment(value);
 				},
 				to : function(value) {
+					if (value === undefined) {
+						return "";
+					}
 					return moment(value).format('YYYY-MM-DD hh:mm:ss');
 				}
 			}
@@ -40,8 +46,8 @@ $(document).ready(function() {
 			},
 			"commands" : function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> " +
-					"<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>";
+					"<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
+					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
 			},
 			"progress" : function(column, row) {
 				var value;
@@ -66,13 +72,13 @@ $(document).ready(function() {
 			}, getInfoCallback);
 			function getInfoCallback(res) {
 				if (res.code == 1) {
-					var user = res.data;
-					tempName = user.username;
-					$('#projectName1').val(user.username);
-					$('#remarke1').val(user.password);
+					var project = res.data;
+					tempName = project.projectName;
+					$('#projectName1').val(tempName);
+					$('#remarke1').val(project.remark);
 					$('#updateProjectModal').modal("show");
 				} else {
-					showToast(res.data, 'error');
+					showToast(res.data, 'success');
 				}
 			}
 		}).end().find(".command-delete").on("click", function(e) {
@@ -86,20 +92,22 @@ $(document).ready(function() {
 					} else {
 						showToast(res.data, 'error');
 					}
+					$("#grid-data").bootgrid("reload");
 				}
 				$("#grid-data").bootgrid("reload");
 			}
 		}).end().find(".command-finshed").on("click", function(e) {
 			if (confirm("你确定要完成此项目吗?")) {
-				ajax(path + "/project/delete", {
+				ajax(path + "/project/finshed", {
 					id : $(this).data("row-id")
-				}, deleteCallback);
-				function deleteCallback(res) {
+				}, finshedCallback);
+				function finshedCallback(res) {
 					if (res.code == 1) {
 						showToast(res.data, 'success');
 					} else {
 						showToast(res.data, 'error');
 					}
+					$("#grid-data").bootgrid("reload");
 				}
 				$("#grid-data").bootgrid("reload");
 			}
@@ -112,7 +120,7 @@ $(document).ready(function() {
 		project.remark = $('#remarke1').val();
 		ajax(path + "/project/update", {
 			project : JSON.stringify(project),
-			username : tempName
+			projectName : tempName
 		}, updateCallback);
 		function updateCallback(res) {
 			$("#grid-data").bootgrid("reload");
@@ -128,7 +136,7 @@ $(document).ready(function() {
 
 	$("#addProjectSumbit").click(function() {
 		var project = {};
-		project.remarke = $('#remarke').val();
+		project.remark = $('#remarke').val();
 		project.projectName = $('#projectName').val();
 		ajax(path + "/project/add", {
 			project : JSON.stringify(project)

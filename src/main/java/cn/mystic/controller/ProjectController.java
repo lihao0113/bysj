@@ -29,6 +29,12 @@ public class ProjectController {
 		OutputUtil.print(response, res);
 	}
 	
+	@RequestMapping(value = "/findOne", method = RequestMethod.POST)
+	public void findOne(HttpServletRequest request, HttpServletResponse response, String id) {
+		JSONObject res = projectService.findOne(id);
+		OutputUtil.print(response, res);
+	}
+	
 	@RequestMapping(value = "/findIng", method = RequestMethod.POST)
 	public void findIng(HttpServletRequest request, HttpServletResponse response) {
 		JSONObject res = projectService.findIng();
@@ -51,11 +57,11 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void update(HttpServletRequest request, HttpServletResponse response, String project,
+	public void update(HttpServletRequest request, HttpServletResponse response, String project, String projectName,
 			@CurrentUser SysUser currentUser) {
 		JSONObject jsonObject = JSONObject.parseObject(project);
 		Project bean = jsonObject.toJavaObject(Project.class);
-		JSONObject res = projectService.update(bean, currentUser);
+		JSONObject res = projectService.update(bean, currentUser, projectName);
 		OutputUtil.print(response, res);
 	}
 
@@ -71,6 +77,14 @@ public class ProjectController {
 	public void progress(HttpServletRequest request, HttpServletResponse response, String id) {
 		Integer projectId = Integer.parseInt(id);
 		JSONObject res = projectService.progress(projectId);
+		OutputUtil.print(response, res);
+	}
+	
+
+	@RequestMapping(value = "/finshed", method = RequestMethod.POST)
+	public void finshed(HttpServletRequest request, HttpServletResponse response, String id) {
+		Integer projectId = Integer.parseInt(id);
+		JSONObject res = projectService.finshed(projectId);
 		OutputUtil.print(response, res);
 	}
 	

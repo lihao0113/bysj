@@ -45,7 +45,26 @@ public class ProjectService {
 			return result;
 		}
 	}
-	
+
+	/**
+	 * 获取所有项目
+	 * 
+	 * @return
+	 */
+	public JSONObject findOne(String id) {
+		JSONObject result = new JSONObject();
+		try {
+			Project project = projectRepository.findOne(Integer.valueOf(id));
+			result.put("code", 1);
+			result.put("data", project);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			return result;
+		}
+	}
+
 	/**
 	 * 获取进行中的项目
 	 * 
@@ -138,9 +157,9 @@ public class ProjectService {
 	 * 
 	 * @return
 	 */
-	public JSONObject update(Project project, SysUser currentUser) {
+	public JSONObject update(Project project, SysUser currentUser, String projectName) {
 		JSONObject result = new JSONObject();
-		Project checkProject = projectRepository.findByProjectName(project.getProjectName());
+		Project checkProject = projectRepository.findByProjectName(projectName);
 		try {
 			if (checkProject == null) {
 				result.put("code", 0);
@@ -150,7 +169,10 @@ public class ProjectService {
 					result.put("code", 0);
 					result.put("data", "权限不足，请联系管理员");
 				} else {
-					projectRepository.save(project);
+					checkProject.setProjectName(project.getProjectName());
+					checkProject.setRemark(project.getRemark());
+					checkProject.setUpdateTime(new Date());
+					projectRepository.save(checkProject);
 					result.put("code", 1);
 					result.put("data", "项目修改成功");
 				}
@@ -173,9 +195,11 @@ public class ProjectService {
 		JSONObject result = new JSONObject();
 		try {
 			projectRepository.delete(projectId);
+			result.put("code", 1);
 			result.put("data", "项目删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
+			result.put("code", 0);
 			result.put("data", "发生异常，删除失败");
 		}
 
@@ -204,8 +228,39 @@ public class ProjectService {
 			value = (finished * 100) / tasks.size();
 			result.put("value", value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			result.put("value", 0);
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * 完成项目
+	 * 
+	 * @return
+	 */
+	public JSONObject finshed(Integer projectId) {
+		JSONObject result = new JSONObject();
+		try {
+			Project project = projectRepository.findOne(projectId);
+			List<Task> tasks = project.getTasks();
+			if (tasks.size() > 0) {
+				for (int i = 0; i < tasks.size(); i++) {
+					if (!"2".equals(tasks.get(i).getTaskState())) {
+						result.put("code", 0);
+						result.put("data", "任务没有全部完成，项目不可结束！");
+						return result;
+					}
+				}
+			}
+			project.setOverTime(new Date());
+			project.setProjectState(TaskState.FINISH.toString());
+			projectRepository.save(project);
+			result.put("code", 1);
+			result.put("data", "项目已完成！");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;
