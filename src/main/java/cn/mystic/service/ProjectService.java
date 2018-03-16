@@ -224,8 +224,8 @@ public class ProjectService {
 						finished += 1;
 					}
 				}
+				value = (finished * 100) / tasks.size();
 			}
-			value = (finished * 100) / tasks.size();
 			result.put("value", value);
 		} catch (Exception e) {
 			result.put("value", 0);
