@@ -1,3 +1,10 @@
+function linkToTask(e) {
+	var projectName = $(e).text();
+	var parent = window.parent.document.getElementById('project');
+	var frame = $(parent).children('iframe');
+	frame.attr('src', path + '/task/taskList?projectName=' + projectName);
+}
+
 $(document).ready(function() {
 	var tempName;
 	$("#addProject").click(function() {
@@ -8,7 +15,7 @@ $(document).ready(function() {
 			this.value = "";
 		});
 	});
-
+	
 	var grid = $("#grid-data").bootgrid({
 		ajax : true,
 		url : path + "/project/pageAll",
@@ -42,7 +49,7 @@ $(document).ready(function() {
 				return "<span>" + result + " </span>";
 			},
 			"projectName" : function(column, row) {
-				return "<a>" + row.projectName + "</a>";
+				return "<a onclick='linkToTask(this)'>" + row.projectName + "</a>";
 			},
 			"commands" : function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
