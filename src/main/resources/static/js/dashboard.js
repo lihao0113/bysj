@@ -1,5 +1,9 @@
 ajax(path + "/logger/findCurrent", null, getLogger20Callback);
 
+//$('#link_to_pro').click(function () {
+//	var frame = window.parent.getElementById('link_to_pro');
+//});
+
 function getLogger20Callback(res) {
 	if (res.code == 1) {
 		var now = new Date();
