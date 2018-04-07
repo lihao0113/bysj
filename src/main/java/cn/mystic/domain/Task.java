@@ -2,10 +2,8 @@ package cn.mystic.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -28,6 +26,8 @@ public class Task {
 
     @ManyToOne
     private Project project; // 所属项目id
+    
+    private String projectName; // 所属项目名称
 
     private String taskName; // 任务名称
     
@@ -44,16 +44,41 @@ public class Task {
     private String finishName; // 完成人姓名
 
     public Task() {}
+    
+    public Task(Project project, String projectName, String taskName, String remark, Date createTime,
+			Date expriyTime, String taskState, String assignName, String finishName) {
+		super();
+		this.project = project;
+		this.projectName = projectName;
+		this.taskName = taskName;
+		this.remark = remark;
+		this.createTime = createTime;
+		this.expriyTime = expriyTime;
+		this.taskState = taskState;
+		this.assignName = assignName;
+		this.finishName = finishName;
+	}
 
-    public Integer getId() {
+
+
+	public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
+    
+    
+    public String getProjectName() {
+		return projectName;
+	}
 
-    public Project getProject() {
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public Project getProject() {
         return project;
     }
 
