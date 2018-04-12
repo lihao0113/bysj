@@ -9,6 +9,10 @@ $("#myInfo").click(function (){
 		this.value = "";
 	});
 });
+
+$('#project_lab').click(function() {
+	$('#project_iframe').attr('src', path + '/projectList');
+});
 var currentUser;
 ajax(path + "/user/myself", null, loginUserCallback);
 function loginUserCallback (res){

@@ -1,6 +1,7 @@
 package cn.mystic.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.mystic.dao.TaskRepository;
 import cn.mystic.domain.Project;
+import cn.mystic.domain.SysUser;
 import cn.mystic.domain.Task;
+import cn.mystic.utils.state.TaskState;
 
 @Service
 public class TaskService {
@@ -53,5 +56,44 @@ public class TaskService {
 		}
 	}
 
+
+	/**
+	 * 添加任务
+	 * 
+	 * @return
+	 */
+	public JSONObject add(Task task, SysUser currentUser) {
+		JSONObject result = new JSONObject();
+		try {
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("data", "系统错误，添加失败");
+		}
+		return result;
+	}
+
+	/**
+	 * 修改任务
+	 * 
+	 * @return
+	 */
+	public JSONObject update(Task task, SysUser currentUser, String projectName) {
+		JSONObject result = new JSONObject();
+		return result;
+	}
+
+	/**
+	 * 删除任务
+	 * 
+	 * @return
+	 */
+	public JSONObject delete(Integer taskId) {
+		JSONObject result = new JSONObject();
+
+		return result;
+	}
 
 }

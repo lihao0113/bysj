@@ -5,36 +5,63 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.mystic.annotation.CurrentUser;
+import cn.mystic.domain.SysUser;
+import cn.mystic.domain.Task;
 import cn.mystic.service.TaskService;
 import cn.mystic.utils.OutputUtil;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
-	
+
 	private String projectName = "";
-	
+
 	@Autowired
 	private TaskService taskService;
-	
-    @RequestMapping(value = "/taskList", method = RequestMethod.GET)
-    public String taskList(String projectName) {
-    	this.projectName = projectName;
-        return "task_list";
-    }
-    
 
-	@RequestMapping(value = "/findAll", method = RequestMethod.POST)
-	public void findAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current, String rowCount) {
-		String projectName  = this.projectName;
+	@RequestMapping(value = "/taskList", method = RequestMethod.GET)
+	public String taskList(String projectName) {
+		this.projectName = projectName;
+		return "task_list";
+	}
+
+	@RequestMapping(value = "/pageAll", method = RequestMethod.POST)
+	public void findAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current,
+			String rowCount) {
+		String projectName = this.projectName;
 		JSONObject res = taskService.pageAll(projectName, searchPhrase, current, rowCount);
 		OutputUtil.print(response, res);
 	}
-	
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public void add(HttpServletRequest request, HttpServletResponse response, String task,
+			@CurrentUser SysUser currentUser) {
+		JSONObject jsonObject = JSONObject.parseObject(task);
+		Task bean = jsonObject.toJavaObject(Task.class);
+		JSONObject res = taskService.add(bean, currentUser);
+		OutputUtil.print(response, res);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public void update(HttpServletRequest request, HttpServletResponse response, String task, String taskName,
+			@CurrentUser SysUser currentUser) {
+		JSONObject jsonObject = JSONObject.parseObject(task);
+		Task bean = jsonObject.toJavaObject(Task.class);
+		JSONObject res = taskService.update(bean, currentUser, taskName);
+		OutputUtil.print(response, res);
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
+		Integer taskId = Integer.parseInt(id);
+		JSONObject res = taskService.delete(taskId);
+		OutputUtil.print(response, res);
+	}
+
 }
