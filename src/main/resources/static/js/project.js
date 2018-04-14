@@ -57,15 +57,20 @@ $(document).ready(function() {
 					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
 			},
 			"progress" : function(column, row) {
-				var value;
-				ajax(path + "/project/progress", {
-					id : row.id
-				}, function(res) {
-					value = res.value;
-				});
+				var value = 0;
+				$.ajax({
+					  type: 'POST',
+					  url: path + "/project/progress",
+					  data: {id : row.id},
+					  dataType: 'json',
+					  async: false,
+					  success: function (res) {
+						  value = parseInt(res.value);
+					  }
+					});
 				return "<div class=\"progress\" style=\"width:120px\">" +
 					"<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"" + value + "\"" +
-					"aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:" + value + "%;\">" +
+					"aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:" + parseInt(value) + "%;\">" +
 					"<span class=\"sr-only\">" + value + "% 完成</span>" +
 					"</div>" +
 					"</div>";

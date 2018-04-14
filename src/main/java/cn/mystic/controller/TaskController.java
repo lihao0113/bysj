@@ -31,6 +31,12 @@ public class TaskController {
 		return "task_list";
 	}
 
+	@RequestMapping(value = "/findOne", method = RequestMethod.POST)
+	public void findOne(HttpServletRequest request, HttpServletResponse response, String id) {
+		JSONObject res = taskService.findOne(id);
+		OutputUtil.print(response, res);
+	}
+
 	@RequestMapping(value = "/pageAll", method = RequestMethod.POST)
 	public void findAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current,
 			String rowCount) {
@@ -42,9 +48,10 @@ public class TaskController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public void add(HttpServletRequest request, HttpServletResponse response, String task,
 			@CurrentUser SysUser currentUser) {
+		String projectName = this.projectName;
 		JSONObject jsonObject = JSONObject.parseObject(task);
 		Task bean = jsonObject.toJavaObject(Task.class);
-		JSONObject res = taskService.add(bean, currentUser);
+		JSONObject res = taskService.add(bean, currentUser, projectName);
 		OutputUtil.print(response, res);
 	}
 
@@ -54,6 +61,15 @@ public class TaskController {
 		JSONObject jsonObject = JSONObject.parseObject(task);
 		Task bean = jsonObject.toJavaObject(Task.class);
 		JSONObject res = taskService.update(bean, currentUser, taskName);
+		OutputUtil.print(response, res);
+	}
+
+	@RequestMapping(value = "/updateZhipai", method = RequestMethod.POST)
+	public void updateZhipai(HttpServletRequest request, HttpServletResponse response, String task,
+			@CurrentUser SysUser currentUser) {
+		JSONObject jsonObject = JSONObject.parseObject(task);
+		Task bean = jsonObject.toJavaObject(Task.class);
+		JSONObject res = taskService.updateZhipai(bean, currentUser);
 		OutputUtil.print(response, res);
 	}
 

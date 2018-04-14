@@ -100,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<!-- 修改任务模态框（Modal） -->
 	<div class="modal fade" id="updateTaskModal" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -136,6 +136,41 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 指派模态框（Modal） -->
+	<div class="modal fade" id="zhipaiModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">指派给</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">指派给：</label>
+						<div class="col-sm-8">
+							<select id="userSel1" class="form-control m-b">
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 control-label text-right">备注：</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" rows="4" id="remarke2"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button id="zhipaiSumbit" type="button"
+						class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<div class="container">
@@ -150,8 +185,8 @@
 								data-sortable="false">任务名称</th>
 							<th data-column-id="projectName">所属项目</th>
 							<th data-column-id="remark">任务描述</th>
-							<th data-column-id="createTime" data-converter="datetime">创建日期</th>
-							<th data-column-id="expriyTime" data-converter="datetime">截止日期</th>
+							<th data-column-id="createTime" data-converter="datetime1">创建日期</th>
+							<th data-column-id="expriyTime" data-sortable="false">截止日期</th>
 							<th data-column-id="taskState" data-formatter="taskState"
 								data-sortable="false">项目状态</th>
 							<th data-column-id="assignName" data-sortable="false">指派人</th>

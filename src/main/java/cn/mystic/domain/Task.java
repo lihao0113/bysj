@@ -35,7 +35,7 @@ public class Task {
 
     private Date createTime; // 创建日期
 
-    private Date expriyTime;// 截止日期
+    private String expriyTime;// 截止日期
 
     private String taskState; // 任务状态 0.未开始 1.进行中 2.已完成
 
@@ -46,7 +46,7 @@ public class Task {
     public Task() {}
     
     public Task(Project project, String projectName, String taskName, String remark, Date createTime,
-			Date expriyTime, String taskState, String assignName, String finishName) {
+    		String expriyTime, String taskState, String assignName, String finishName) {
 		super();
 		this.project = project;
 		this.projectName = projectName;
@@ -58,7 +58,6 @@ public class Task {
 		this.assignName = assignName;
 		this.finishName = finishName;
 	}
-
 
 
 	public Integer getId() {
@@ -102,11 +101,11 @@ public class Task {
         this.createTime = createTime;
     }
 
-    public Date getExpriyTime() {
+    public String getExpriyTime() {
         return expriyTime;
     }
 
-    public void setExpriyTime(Date expriyTime) {
+    public void setExpriyTime(String expriyTime) {
         this.expriyTime = expriyTime;
     }
 

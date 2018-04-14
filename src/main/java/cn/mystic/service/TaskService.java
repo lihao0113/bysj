@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.mystic.dao.ProjectRepository;
 import cn.mystic.dao.TaskRepository;
 import cn.mystic.domain.Project;
 import cn.mystic.domain.SysUser;
@@ -21,6 +22,9 @@ public class TaskService {
 	
 	@Autowired
 	private TaskRepository taskRepository;
+	
+	@Autowired
+	private ProjectRepository projectRepository;
 	
 	/**
 	 * 分页获取所有项目
@@ -38,7 +42,7 @@ public class TaskService {
 			if ("-1".equals(rowCount)) {
 				tasks = taskRepository.findAllList(searchPhrase);
 			} else {
-				tasks = taskRepository.findProjects(searchPhrase, first, pageSize);
+				tasks = taskRepository.findTasks(searchPhrase, first, pageSize);
 			}
 			JSONArray array = new JSONArray();
 			for (Task item : tasks) {
@@ -62,11 +66,25 @@ public class TaskService {
 	 * 
 	 * @return
 	 */
-	public JSONObject add(Task task, SysUser currentUser) {
+	public JSONObject add(Task task, SysUser currentUser, String projectName) {
 		JSONObject result = new JSONObject();
+		Date now = new Date();
 		try {
-			
-			
+			String taskName = task.getTaskName();
+			Task isExist = taskRepository.findByTaskNameAndProjectName(taskName, projectName);
+			if (isExist != null) {
+				result.put("code", 0);
+				result.put("data", "该任务已存在");
+				return result;
+			}
+			Project project = projectRepository.findByProjectName(projectName);
+			task.setProjectName(projectName);
+			task.setProject(project);
+			task.setCreateTime(now);
+			task.setTaskState(TaskState.NOTSTARTED.toString());
+			taskRepository.save(task);
+			result.put("code", 1);
+			result.put("data", "添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("code", 0);
@@ -84,6 +102,31 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		return result;
 	}
+	
+	/**
+	 * 修改任务指派
+	 * 
+	 * @return
+	 */
+	public JSONObject updateZhipai(Task task, SysUser currentUser) {
+		JSONObject result = new JSONObject();
+		try {
+			Task isExist = taskRepository.findOne(task.getId());
+			if (isExist != null) {
+				isExist.setAssignName(task.getAssignName());
+				isExist.setRemark(task.getRemark());
+				taskRepository.save(isExist);
+				result.put("code", 1);
+				result.put("info", "修改成功");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("info", "系统错误，修改失败");
+		}
+		return result;
+	}
+
 
 	/**
 	 * 删除任务
@@ -94,6 +137,25 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 
 		return result;
+	}
+
+	/**
+	 * 获取一个项目
+	 * 
+	 * @return
+	 */
+	public JSONObject findOne(String id) {
+		JSONObject result = new JSONObject();
+		try {
+			Task task = taskRepository.findOne(Integer.valueOf(id));
+			result.put("code", 1);
+			result.put("data", task);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			return result;
+		}
 	}
 
 }

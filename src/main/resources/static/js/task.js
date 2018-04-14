@@ -1,10 +1,11 @@
 $(document).ready(function() {
+	var taskId;
 	Datetime();
 	var grid = $("#grid-data").bootgrid({
 		ajax : true,
 		url : path + "/task/pageAll",
 		converters : {
-			datetime : {
+			datetime1 : {
 				from : function(value) {
 					return moment(value);
 				},
@@ -12,14 +13,14 @@ $(document).ready(function() {
 					if (value === undefined) {
 						return "";
 					}
-					return moment(value).format('YYYY-MM-DD hh:mm:ss');
+					return moment(value).format('YYYY-MM-DD');
 				}
 			}
 		},
 		formatters : {
 			"taskState" : function(column, row) {
 				var result;
-				switch (row.projectState) {
+				switch (row.taskState) {
 				case "0":
 					result = "未开始"
 					break;
@@ -35,8 +36,10 @@ $(document).ready(function() {
 			"projectName" : function(column, row) {
 				return "<a onclick='linkToTask(this)'>" + row.projectName + "</a>";
 			},
+
 			"commands" : function(column, row) {
 				return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+					"<button type=\"button\" data-toggle=\"modal\" data-target=\"#zhipaiModal\"  class=\"btn btn-xs btn-default command-zhipai\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-hand-right\"></span></button> " +
 					"<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
 					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
 			},
@@ -44,7 +47,7 @@ $(document).ready(function() {
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		grid.find(".command-edit").on("click", function(e) {
 			var id = $(this).data("row-id");
-			ajax(path + "/project/findOne", {
+			ajax(path + "/task/findOne", {
 				id : id
 			}, getInfoCallback);
 			function getInfoCallback(res) {
@@ -56,6 +59,35 @@ $(document).ready(function() {
 					$('#updateProjectModal').modal("show");
 				} else {
 					showToast(res.data, 'success');
+				}
+			}
+		}).end().find(".command-zhipai").on("click", function(e) {
+			var id = $(this).data("row-id");
+			taskId = id;
+			var assginName;
+			ajax(path + "/task/findOne", {
+				id : id
+			}, getTaskCallback);
+			function getTaskCallback(res) {
+				if (res.code == 1) {
+					var data = res.data;
+					$('#remarke2').val(data.remark);
+					assginName = data.assignName;
+				}
+			}
+			$('#zhipaiModal').modal('show')
+			$('#userSel1').html('');
+			ajax(path + "/user/findAll", null, getUserList1);
+			function getUserList1(res) {
+				if (res.code == 1) {
+					var data = res.data;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].username == assginName) {
+							$('#userSel1').append('<option value ="' + data[i].username + '" selected>' + data[i].username + '</option>');
+						} else {
+							$('#userSel1').append('<option value ="' + data[i].username + '">' + data[i].username + '</option>');
+						}
+					}
 				}
 			}
 		}).end().find(".command-delete").on("click", function(e) {
@@ -74,20 +106,18 @@ $(document).ready(function() {
 				$("#grid-data").bootgrid("reload");
 			}
 		}).end().find(".command-finshed").on("click", function(e) {
-			if (confirm("你确定要完成此项目吗?")) {
-				ajax(path + "/task/finshed", {
-					id : $(this).data("row-id")
-				}, finshedCallback);
-				function finshedCallback(res) {
-					if (res.code == 1) {
-						showToast(res.data, 'success');
-					} else {
-						showToast(res.data, 'error');
-					}
-					$("#grid-data").bootgrid("reload");
+			ajax(path + "/task/finshed", {
+				id : $(this).data("row-id")
+			}, finshedCallback);
+			function finshedCallback(res) {
+				if (res.code == 1) {
+					showToast(res.data, 'success');
+				} else {
+					showToast(res.data, 'error');
 				}
 				$("#grid-data").bootgrid("reload");
 			}
+			$("#grid-data").bootgrid("reload");
 		});
 
 	});
@@ -130,12 +160,35 @@ $(document).ready(function() {
 		$("#grid-data").bootgrid("reload");
 	});
 
+	$('#zhipaiSumbit').click(function() {
+		var task = {};
+		task.id = taskId;
+		task.assignName = $('#userSel1').val();
+		task.remark = $('#remarke2').val();
+		ajax(path + "/task/updateZhipai", {
+			task : JSON.stringify(task)
+		}, zhipaiCallback);
+		function zhipaiCallback(res){
+			if (res.code == 1) {
+				showToast(res.info, 'success');
+			} else {
+				showToast(res.info, 'error');
+			}
+			$("#zhipaiModal").modal('hide');
+			$("#grid-data").bootgrid("reload");
+		}
+	});
+
 	$("#addTaskSumbit").click(function() {
 		var task = {};
 		task.remark = $('#remarke').val();
 		task.taskName = $('#taskName').val();
+		if (task.taskName == '') {
+			alert('任务名称不可为空！')
+			return;
+		}
 		task.assignName = $('#userSel').find('option:selected').text();
-		task.expriyTime = Datetime();
+		task.expriyTime = document.getElementById("expriyTime1").value;
 		ajax(path + "/task/add", {
 			task : JSON.stringify(task)
 		}, addCallback);
@@ -182,7 +235,5 @@ $(document).ready(function() {
 		var day = date.getDate();
 		var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
 		document.getElementById("expriyTime1").value = mydate;
-		return mydate;
 	}
-
 });

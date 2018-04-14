@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.mystic.dao.ProjectRepository;
+import cn.mystic.dao.TaskRepository;
 import cn.mystic.domain.Project;
 import cn.mystic.domain.SysUser;
 import cn.mystic.domain.Task;
@@ -26,6 +27,8 @@ public class ProjectService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
+	@Autowired
+	private TaskRepository taskRepository;
 
 	/**
 	 * 获取所有项目
@@ -47,7 +50,7 @@ public class ProjectService {
 	}
 
 	/**
-	 * 获取所有项目
+	 * 获取一个项目
 	 * 
 	 * @return
 	 */
@@ -217,7 +220,7 @@ public class ProjectService {
 			int value = 0;
 			int finished = 0;
 			Project project = projectRepository.findOne(projectId);
-			List<Task> tasks = project.getTasks();
+			List<Task> tasks = taskRepository.findByProjectName(project.getProjectName());
 			if (tasks.size() > 0) {
 				for (int i = 0; i < tasks.size(); i++) {
 					if ("2".equals(tasks.get(i).getTaskState())) {
