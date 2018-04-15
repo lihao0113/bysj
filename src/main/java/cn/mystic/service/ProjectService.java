@@ -93,6 +93,42 @@ public class ProjectService {
 	}
 
 	/**
+	 * 获取进行中的项目及进度
+	 * 
+	 * @return
+	 */
+	public JSONObject indexEcharts() {
+		JSONObject result = new JSONObject();
+		try {
+			List<Project> projects = projectRepository.findProIng();
+			JSONArray xArray = new JSONArray();
+			JSONArray yArray = new JSONArray();
+			if (projects != null) {
+				for (Project project : projects) {
+					xArray.add(project.getProjectName());
+					int value = 0;
+					int finished = 0;
+					List<Task> tasks = taskRepository.findByProjectName(project.getProjectName());
+					if (tasks.size() > 0) {
+						for (int i = 0; i < tasks.size(); i++) {
+							if ("2".equals(tasks.get(i).getTaskState())) {
+								finished += 1;
+							}
+						}
+						value = (finished * 100) / tasks.size();
+					}
+					yArray.add(value);
+				}
+			}
+			result.put("xArr", xArray);
+			result.put("yArr", yArray);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
 	 * 分页获取所有项目
 	 * 
 	 * @return
@@ -143,12 +179,12 @@ public class ProjectService {
 					result.put("code", 0);
 					result.put("data", "项目已存在");
 				} else {
-					Logger logger = LogUtil.getLogger(project, null, "新建了项目");
-					loggerRepository.save(logger);
 					project.setCreateUser(currentUser.getUsername());
 					project.setCreateTime(new Date());
 					project.setProjectState(TaskState.NOTSTARTED.toString());
 					projectRepository.save(project);
+					Logger logger = LogUtil.getLogger(project, null, "新建了项目");
+					loggerRepository.save(logger);
 					result.put("code", 1);
 					result.put("data", "项目添加成功");
 				}

@@ -88,4 +88,11 @@ public class ProjectController {
 		OutputUtil.print(response, res);
 	}
 	
+	@RequestMapping(value = "/indexEcharts", method = RequestMethod.POST)
+	public void indexEcharts(HttpServletRequest request, HttpServletResponse response) {
+		JSONObject res = projectService.indexEcharts();
+		OutputUtil.print(response, res);
+	}
+	
+	
 }

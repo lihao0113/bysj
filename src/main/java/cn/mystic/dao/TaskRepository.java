@@ -16,9 +16,9 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 	
 	List<Task> findByProjectName(String projectName);
 
-	@Query(nativeQuery = true, value = "SELECT * from task t WHERE t.id LIKE CONCAT('%',?1,'%') OR t.assign_name LIKE CONCAT('%',?1,'%') OR t.task_name LIKE CONCAT('%',?1,'%') OR t.remark LIKE CONCAT('%',?1,'%') OR t.project_name LIKE CONCAT('%',?1,'%') LIMIT ?2,?3")
-	List<Task> findTasks(String searchPhrase, int first, int last);
+	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.project_name =?2 ORDER BY \"id\") s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%') LIMIT ?3,?4")
+	List<Task> findTasks(String searchPhrase, String projectName, int first, int last);
 
-	@Query(nativeQuery = true, value = "SELECT * from task t WHERE t.id LIKE CONCAT('%',?1,'%') OR t.assign_name LIKE CONCAT('%',?1,'%') OR t.task_name LIKE CONCAT('%',?1,'%') OR t.remark LIKE CONCAT('%',?1,'%') OR t.project_name LIKE CONCAT('%',?1,'%') ORDER BY \"id\"")
-	List<Task> findAllList(String searchPhrase);
+	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.project_name =?2 ORDER BY \"id\") s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%')")
+	List<Task> findAllList(String searchPhrase, String projectName);
 }

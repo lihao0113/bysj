@@ -23,6 +23,12 @@ a:hover {
 	text-decoration: none;
 	background-color: #eee;
 }
+
+.group_span {
+	padding-left:100px;
+	padding-right:100px;
+	font-weight:bold;
+}
 </style>
 </head>
 <body>
@@ -51,9 +57,14 @@ a:hover {
 		<div id="project" class="row">
 			<div class="col-md-12" style="margin-top:5px;">
 				<div style="padding:3px;background-color:#F1F1F1;">
-					<span style="font-weight:bold;font-size:15px;">进行中的项目总览</span> <a
-						href="" class="pull-right" id="link_to_pro">MORE</a>
+					<span style="font-weight:bold;font-size:15px;">进行中的项目总览</span>
 				</div>
+			</div>
+			<div style="padding-left:15px;">
+				<ul id="project_ul" class="list-group"
+					style="width: 100%;height: 230px;overflow-y: scroll;font-size:13px;">
+					<li class="list-group-item" style="height:35px;"><span class="group_span">项目名称</span><span class="group_span">项目负责人</span><span class="group_span">创建时间</span><span class="group_span">完成进度</span></li>
+				</ul>
 			</div>
 		</div>
 	</div>

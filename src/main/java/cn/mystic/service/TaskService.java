@@ -28,7 +28,7 @@ public class TaskService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
-	
+
 	@Autowired
 	private LoggerRepository loggerRepository;
 
@@ -44,11 +44,11 @@ public class TaskService {
 			int pageNumber = Integer.valueOf(current);
 			int pageSize = Integer.valueOf(rowCount);
 			int first = (pageNumber - 1) * pageSize;
-			List<Task> taskList = taskRepository.findAll();
+			List<Task> taskList = taskRepository.findByProjectName(projectName);
 			if ("-1".equals(rowCount)) {
-				tasks = taskRepository.findAllList(searchPhrase);
+				tasks = taskRepository.findAllList(searchPhrase, projectName);
 			} else {
-				tasks = taskRepository.findTasks(searchPhrase, first, pageSize);
+				tasks = taskRepository.findTasks(searchPhrase, projectName, first, pageSize);
 			}
 			JSONArray array = new JSONArray();
 			for (Task item : tasks) {
@@ -155,12 +155,11 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		try {
 			Task task = taskRepository.findOne(taskId);
-			Project project = projectRepository.findByProjectName(task.getProjectName());
 			if (task != null) {
 				task.setProject(null);
 				taskRepository.delete(task);
 			}
-			Logger logger = LogUtil.getLogger(project, task, "删除了任务");
+			Logger logger = LogUtil.getLogger(null, task, "删除了任务");
 			loggerRepository.save(logger);
 			result.put("code", 1);
 			result.put("info", "删除成功");
@@ -218,10 +217,10 @@ public class TaskService {
 			Project project = projectRepository.findByProjectName(task.getProjectName());
 			if (task.getTaskState().equals(TaskState.FINISH.toString())) {
 				result.put("code", 0);
-				result.put("info", "任务已完成");
+				result.put("info", "任务已完成");	
 				return result;
 			} else {
-				Logger logger = LogUtil.getLogger(project, task, "完成了任务");
+				Logger logger = LogUtil.getLogger(null, task, "完成了任务");
 				loggerRepository.save(logger);
 				project.setProjectState(TaskState.STARTING.toString());
 				projectRepository.save(project);
