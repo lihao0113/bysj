@@ -1,20 +1,21 @@
 package cn.mystic.service;
 
-import cn.mystic.dao.SysUserRepository;
-import cn.mystic.domain.SysUser;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import cn.mystic.dao.LoggerRepository;
+import cn.mystic.dao.SysUserRepository;
+import cn.mystic.domain.Logger;
+import cn.mystic.domain.SysUser;
+import cn.mystic.utils.LogUtil;
 
 /**
  * Created by lihao on 2018/1/26.
@@ -24,6 +25,8 @@ public class SysUserService {
 
 	@Autowired
 	private SysUserRepository userRepository;
+	@Autowired
+	private LoggerRepository loggerRepository;
 	
 	/**
 	 * 分页获取所有用户
@@ -229,6 +232,11 @@ public class SysUserService {
 
 		return result;
 	}
+	
+	public void exit(SysUser sysUser) {
+		Logger logger = LogUtil.getLogger(sysUser, "退出系统");
+		loggerRepository.save(logger);
+	}
 
 	/**
 	 * 登录
@@ -244,6 +252,8 @@ public class SysUserService {
 					result.put("code", 1);
 					result.put("info", "登录成功");
 					result.put("data", loginUser);
+					Logger logger = LogUtil.getLogger(loginUser, "登录系统");
+					loggerRepository.save(logger);
 				} else {
 					result.put("code", 0);
 					result.put("info", "用户名或密码错误");

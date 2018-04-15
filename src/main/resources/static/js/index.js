@@ -60,6 +60,7 @@ $('#tabTop').children('li').click(function() {
 });
 
 $("#exit").click(function() {
+	ajax(path + "/user/exit", null, null);
 	clearCookie();
 	window.location.href = path + "/login";
 

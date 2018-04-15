@@ -10,22 +10,28 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.mystic.dao.LoggerRepository;
 import cn.mystic.dao.ProjectRepository;
 import cn.mystic.dao.TaskRepository;
+import cn.mystic.domain.Logger;
 import cn.mystic.domain.Project;
 import cn.mystic.domain.SysUser;
 import cn.mystic.domain.Task;
+import cn.mystic.utils.LogUtil;
 import cn.mystic.utils.state.TaskState;
 
 @Service
 public class TaskService {
-	
+
 	@Autowired
 	private TaskRepository taskRepository;
-	
+
 	@Autowired
 	private ProjectRepository projectRepository;
 	
+	@Autowired
+	private LoggerRepository loggerRepository;
+
 	/**
 	 * 分页获取所有项目
 	 * 
@@ -59,7 +65,6 @@ public class TaskService {
 			return result;
 		}
 	}
-
 
 	/**
 	 * 添加任务
@@ -102,7 +107,7 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		try {
 			Task isExist = taskRepository.findOne(task.getId());
-			if (isExist != null){
+			if (isExist != null) {
 				isExist.setTaskName(task.getTaskName());
 				isExist.setRemark(task.getRemark());
 				taskRepository.save(isExist);
@@ -116,7 +121,7 @@ public class TaskService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 修改任务指派
 	 * 
@@ -141,7 +146,6 @@ public class TaskService {
 		return result;
 	}
 
-
 	/**
 	 * 删除任务
 	 * 
@@ -151,10 +155,13 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		try {
 			Task task = taskRepository.findOne(taskId);
+			Project project = projectRepository.findByProjectName(task.getProjectName());
 			if (task != null) {
 				task.setProject(null);
 				taskRepository.delete(task);
 			}
+			Logger logger = LogUtil.getLogger(project, task, "删除了任务");
+			loggerRepository.save(logger);
 			result.put("code", 1);
 			result.put("info", "删除成功");
 		} catch (Exception e) {
@@ -164,7 +171,7 @@ public class TaskService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 开始任务
 	 * 
@@ -174,12 +181,15 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		try {
 			Task task = taskRepository.findOne(taskId);
+			Project project = projectRepository.findByProjectName(task.getProjectName());
 			if (task != null) {
 				if (task.getTaskState().equals(TaskState.FINISH.toString())) {
 					result.put("code", 0);
 					result.put("info", "任务已完成，不能开始");
 					return result;
 				} else {
+					project.setProjectState(TaskState.STARTING.toString());
+					projectRepository.save(project);
 					task.setTaskState(TaskState.STARTING.toString());
 					taskRepository.save(task);
 					result.put("code", 1);
@@ -195,7 +205,7 @@ public class TaskService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 完成任务
 	 * 
@@ -205,11 +215,16 @@ public class TaskService {
 		JSONObject result = new JSONObject();
 		try {
 			Task task = taskRepository.findOne(taskId);
+			Project project = projectRepository.findByProjectName(task.getProjectName());
 			if (task.getTaskState().equals(TaskState.FINISH.toString())) {
 				result.put("code", 0);
 				result.put("info", "任务已完成");
 				return result;
 			} else {
+				Logger logger = LogUtil.getLogger(project, task, "完成了任务");
+				loggerRepository.save(logger);
+				project.setProjectState(TaskState.STARTING.toString());
+				projectRepository.save(project);
 				task.setFinishName(username);
 				task.setTaskState(TaskState.FINISH.toString());
 				taskRepository.save(task);
@@ -223,7 +238,6 @@ public class TaskService {
 		}
 		return result;
 	}
-
 
 	/**
 	 * 获取一个项目

@@ -57,6 +57,11 @@ public class SysUserController {
         OutputUtil.print(response,res);
     }
     
+    @RequestMapping(value = "/exit", method = RequestMethod.POST)
+    public void exit(HttpServletRequest request, HttpServletResponse response, @CurrentUser SysUser sysUser) {
+       userService.exit(sysUser);
+    }
+    
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void add(HttpServletRequest request, HttpServletResponse response, String user) {
     	JSONObject jsonObject = JSONObject.parseObject(user);

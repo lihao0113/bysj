@@ -15,11 +15,14 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.mystic.dao.LoggerRepository;
 import cn.mystic.dao.ProjectRepository;
 import cn.mystic.dao.TaskRepository;
+import cn.mystic.domain.Logger;
 import cn.mystic.domain.Project;
 import cn.mystic.domain.SysUser;
 import cn.mystic.domain.Task;
+import cn.mystic.utils.LogUtil;
 import cn.mystic.utils.state.TaskState;
 
 @Service
@@ -29,6 +32,8 @@ public class ProjectService {
 	private ProjectRepository projectRepository;
 	@Autowired
 	private TaskRepository taskRepository;
+	@Autowired
+	private LoggerRepository loggerRepository;
 
 	/**
 	 * 获取所有项目
@@ -138,6 +143,8 @@ public class ProjectService {
 					result.put("code", 0);
 					result.put("data", "项目已存在");
 				} else {
+					Logger logger = LogUtil.getLogger(project, null, "新建了项目");
+					loggerRepository.save(logger);
 					project.setCreateUser(currentUser.getUsername());
 					project.setCreateTime(new Date());
 					project.setProjectState(TaskState.NOTSTARTED.toString());
@@ -197,9 +204,21 @@ public class ProjectService {
 	public JSONObject delete(Integer projectId) {
 		JSONObject result = new JSONObject();
 		try {
-			projectRepository.delete(projectId);
-			result.put("code", 1);
-			result.put("data", "项目删除成功");
+			Project project = projectRepository.findOne(projectId);
+			if (project != null) {
+				List<Task> tasks = taskRepository.findByProjectName(project.getProjectName());
+				if (tasks != null) {
+					for (Task task : tasks) {
+						task.setProject(null);
+						taskRepository.delete(task);
+					}
+				}
+				Logger logger = LogUtil.getLogger(project, null, "删除了项目");
+				loggerRepository.save(logger);
+				projectRepository.delete(project);
+				result.put("code", 1);
+				result.put("data", "项目删除成功");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("code", 0);
@@ -257,6 +276,8 @@ public class ProjectService {
 					}
 				}
 			}
+			Logger logger = LogUtil.getLogger(project, null, "完成了项目");
+			loggerRepository.save(logger);
 			project.setOverTime(new Date());
 			project.setProjectState(TaskState.FINISH.toString());
 			projectRepository.save(project);
