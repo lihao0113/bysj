@@ -56,11 +56,11 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public void update(HttpServletRequest request, HttpServletResponse response, String task, String taskName,
+	public void update(HttpServletRequest request, HttpServletResponse response, String task,
 			@CurrentUser SysUser currentUser) {
 		JSONObject jsonObject = JSONObject.parseObject(task);
 		Task bean = jsonObject.toJavaObject(Task.class);
-		JSONObject res = taskService.update(bean, currentUser, taskName);
+		JSONObject res = taskService.update(bean, currentUser);
 		OutputUtil.print(response, res);
 	}
 
@@ -77,6 +77,20 @@ public class TaskController {
 	public void delete(HttpServletRequest request, HttpServletResponse response, String id) {
 		Integer taskId = Integer.parseInt(id);
 		JSONObject res = taskService.delete(taskId);
+		OutputUtil.print(response, res);
+	}
+	
+	@RequestMapping(value = "/finshed", method = RequestMethod.POST)
+	public void finshed(HttpServletRequest request, HttpServletResponse response, String id, @CurrentUser SysUser sysUser) {
+		Integer taskId = Integer.parseInt(id);
+		JSONObject res = taskService.finshed(taskId, sysUser.getUsername());
+		OutputUtil.print(response, res);
+	}
+	
+	@RequestMapping(value = "/start", method = RequestMethod.POST)
+	public void start(HttpServletRequest request, HttpServletResponse response, String id) {
+		Integer taskId = Integer.parseInt(id);
+		JSONObject res = taskService.start(taskId);
 		OutputUtil.print(response, res);
 	}
 

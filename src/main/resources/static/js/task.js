@@ -38,7 +38,9 @@ $(document).ready(function() {
 			},
 
 			"commands" : function(column, row) {
+				$(column).attr('style','width: 15%;');
 				return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+					"<button type=\"button\" class=\"btn btn-xs btn-default command-start\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-play\"></span></button> " +
 					"<button type=\"button\" data-toggle=\"modal\" data-target=\"#zhipaiModal\"  class=\"btn btn-xs btn-default command-zhipai\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-hand-right\"></span></button> " +
 					"<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
 					"<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
@@ -47,20 +49,34 @@ $(document).ready(function() {
 	}).on("loaded.rs.jquery.bootgrid", function() {
 		grid.find(".command-edit").on("click", function(e) {
 			var id = $(this).data("row-id");
+			taskId = id;
 			ajax(path + "/task/findOne", {
 				id : id
 			}, getInfoCallback);
 			function getInfoCallback(res) {
 				if (res.code == 1) {
-					var project = res.data;
-					tempName = project.projectName;
-					$('#projectName1').val(tempName);
-					$('#remarke1').val(project.remark);
-					$('#updateProjectModal').modal("show");
+					var data = res.data;
+					$('#taskName1').val(data.taskName);
+					$('#remarke1').val(data.remark);
+					$('#updateTaskModal').modal('show')
 				} else {
 					showToast(res.data, 'success');
 				}
 			}
+		}).end().find(".command-start").on("click", function(e) {
+			var id = $(this).data("row-id");
+			ajax(path + "/task/start", {
+				id : id
+			}, startCallback);
+			function startCallback(res) {
+				if (res.code == 1) {
+					showToast(res.info, 'success');
+				} else {
+					showToast(res.info, 'error');
+				}
+				$("#grid-data").bootgrid("reload");
+			}
+			$("#grid-data").bootgrid("reload");
 		}).end().find(".command-zhipai").on("click", function(e) {
 			var id = $(this).data("row-id");
 			taskId = id;
@@ -97,9 +113,9 @@ $(document).ready(function() {
 				}, deleteCallback);
 				function deleteCallback(res) {
 					if (res.code == 1) {
-						showToast(res.data, 'success');
+						showToast(res.info, 'success');
 					} else {
-						showToast(res.data, 'error');
+						showToast(res.info, 'error');
 					}
 					$("#grid-data").bootgrid("reload");
 				}
@@ -111,9 +127,9 @@ $(document).ready(function() {
 			}, finshedCallback);
 			function finshedCallback(res) {
 				if (res.code == 1) {
-					showToast(res.data, 'success');
+					showToast(res.info, 'success');
 				} else {
-					showToast(res.data, 'error');
+					showToast(res.info, 'error');
 				}
 				$("#grid-data").bootgrid("reload");
 			}
@@ -141,23 +157,22 @@ $(document).ready(function() {
 	});
 
 	$("#updateTaskSumbit").click(function() {
-		var project = {};
-		project.projectName = $('#projectName1').val();
-		project.remark = $('#remarke1').val();
+		var task = {};
+		task.id = taskId;
+		task.taskName = $('#taskName1').val();
+		task.remark = $('#remarke1').val();
 		ajax(path + "/task/update", {
-			project : JSON.stringify(project),
-			projectName : tempName
+			task : JSON.stringify(task)
 		}, updateCallback);
 		function updateCallback(res) {
-			$("#grid-data").bootgrid("reload");
 			if (res.code == 1) {
-				showToast(res.data, 'success');
+				showToast(res.info, 'success');
 			} else {
-				showToast(res.data, 'error');
+				showToast(res.info, 'error');
 			}
+			$("#updateTaskModal").modal('hide');
+			$("#grid-data").bootgrid("reload");
 		}
-		$("#updateTaskModal").modal('hide');
-		$("#grid-data").bootgrid("reload");
 	});
 
 	$('#zhipaiSumbit').click(function() {
@@ -168,7 +183,7 @@ $(document).ready(function() {
 		ajax(path + "/task/updateZhipai", {
 			task : JSON.stringify(task)
 		}, zhipaiCallback);
-		function zhipaiCallback(res){
+		function zhipaiCallback(res) {
 			if (res.code == 1) {
 				showToast(res.info, 'success');
 			} else {

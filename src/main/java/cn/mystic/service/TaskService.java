@@ -98,8 +98,22 @@ public class TaskService {
 	 * 
 	 * @return
 	 */
-	public JSONObject update(Task task, SysUser currentUser, String projectName) {
+	public JSONObject update(Task task, SysUser currentUser) {
 		JSONObject result = new JSONObject();
+		try {
+			Task isExist = taskRepository.findOne(task.getId());
+			if (isExist != null){
+				isExist.setTaskName(task.getTaskName());
+				isExist.setRemark(task.getRemark());
+				taskRepository.save(isExist);
+			}
+			result.put("code", 1);
+			result.put("info", "修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("info", "系统错误，修改失败");
+		}
 		return result;
 	}
 	
@@ -135,9 +149,81 @@ public class TaskService {
 	 */
 	public JSONObject delete(Integer taskId) {
 		JSONObject result = new JSONObject();
-
+		try {
+			Task task = taskRepository.findOne(taskId);
+			if (task != null) {
+				task.setProject(null);
+				taskRepository.delete(task);
+			}
+			result.put("code", 1);
+			result.put("info", "删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("info", "系统错误，删除失败");
+		}
 		return result;
 	}
+	
+	/**
+	 * 开始任务
+	 * 
+	 * @return
+	 */
+	public JSONObject start(Integer taskId) {
+		JSONObject result = new JSONObject();
+		try {
+			Task task = taskRepository.findOne(taskId);
+			if (task != null) {
+				if (task.getTaskState().equals(TaskState.FINISH.toString())) {
+					result.put("code", 0);
+					result.put("info", "任务已完成，不能开始");
+					return result;
+				} else {
+					task.setTaskState(TaskState.STARTING.toString());
+					taskRepository.save(task);
+					result.put("code", 1);
+					result.put("info", "任务已开始");
+				}
+			}
+			result.put("code", 1);
+			result.put("info", "任务已开始");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("info", "系统错误，开始失败");
+		}
+		return result;
+	}
+	
+	/**
+	 * 完成任务
+	 * 
+	 * @return
+	 */
+	public JSONObject finshed(Integer taskId, String username) {
+		JSONObject result = new JSONObject();
+		try {
+			Task task = taskRepository.findOne(taskId);
+			if (task.getTaskState().equals(TaskState.FINISH.toString())) {
+				result.put("code", 0);
+				result.put("info", "任务已完成");
+				return result;
+			} else {
+				task.setFinishName(username);
+				task.setTaskState(TaskState.FINISH.toString());
+				taskRepository.save(task);
+				result.put("code", 1);
+				result.put("info", "任务已完成");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", 0);
+			result.put("info", "系统错误，完成失败");
+		}
+		return result;
+	}
+
 
 	/**
 	 * 获取一个项目
