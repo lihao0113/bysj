@@ -6,6 +6,7 @@ function linkToTask(e) {
 }
 
 $(document).ready(function() {
+
 	var tempName;
 	$("#addProject").click(function() {
 		$('#addProjectModal input').each(function() {

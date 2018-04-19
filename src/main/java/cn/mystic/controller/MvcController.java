@@ -57,4 +57,15 @@ public class MvcController {
     public String about() {
         return "about";
     }
+
+
+    @RequestMapping(value = "/my_task_list", method = RequestMethod.GET)
+    public String myTaskList() {
+        return "my_task_list";
+    }
+
+    @RequestMapping(value = "/lack_of_authority", method = RequestMethod.GET)
+    public String lackOfAuthority() {
+        return "lack_of_authority";
+    }
 }

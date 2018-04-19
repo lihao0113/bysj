@@ -31,6 +31,13 @@ public class TaskController {
 		return "task_list";
 	}
 
+	@RequestMapping(value = "/myTaskAll", method = RequestMethod.POST)
+	public void myTaskAll(HttpServletRequest request, HttpServletResponse response, String searchPhrase, String current,
+						  String rowCount, @CurrentUser SysUser sysUser) {
+		JSONObject res = taskService.myTaskAll(searchPhrase, current, rowCount, sysUser);
+		OutputUtil.print(response, res);
+	}
+
 	@RequestMapping(value = "/findOne", method = RequestMethod.POST)
 	public void findOne(HttpServletRequest request, HttpServletResponse response, String id) {
 		JSONObject res = taskService.findOne(id);

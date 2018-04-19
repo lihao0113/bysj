@@ -16,9 +16,17 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 	
 	List<Task> findByProjectName(String projectName);
 
+	List<Task> findByAssignName(String assignName);
+
 	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.project_name =?2 ORDER BY \"id\") s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%') LIMIT ?3,?4")
 	List<Task> findTasks(String searchPhrase, String projectName, int first, int last);
 
 	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.project_name =?2 ORDER BY \"id\") s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%')")
 	List<Task> findAllList(String searchPhrase, String projectName);
+
+	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.assign_name =?2 ORDER BY \"id\" DESC) s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%') LIMIT ?3,?4")
+	List<Task> findMyTasks(String searchPhrase, String assignName, int first, int last);
+
+	@Query(nativeQuery = true, value = "SELECT s.* FROM (SELECT * from task t WHERE t.assign_name =?2 ORDER BY \"id\" DESC ) s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.assign_name LIKE CONCAT('%',?1,'%') OR s.task_name LIKE CONCAT('%',?1,'%') OR s.remark LIKE CONCAT('%',?1,'%')")
+	List<Task> findAllMyList(String searchPhrase, String assignName);
 }

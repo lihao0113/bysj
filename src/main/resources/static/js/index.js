@@ -11,8 +11,33 @@ $("#myInfo").click(function (){
 });
 
 $('#project_lab').click(function() {
-	$('#project_iframe').attr('src', path + '/projectList');
+    ajax(path + '/user/myself', null, loginUserCallback1);
+    function loginUserCallback1(res) {
+        if (res.code == 1) {
+            var user = res.data;
+            if (user.role == 2) {
+                $('#project_iframe').attr('src', path + '/my_task_list');
+            } else {
+                $('#project_iframe').attr('src', path + '/projectList');
+            }
+        }
+    }
 });
+
+$('#team_lab').click(function() {
+    ajax(path + '/user/myself', null, loginUserCallback2);
+    function loginUserCallback2(res) {
+        if (res.code == 1) {
+            var user = res.data;
+            if (user.role == 0) {
+                $('#team_iframe').attr('src', path + '/my_task_list');
+            } else {
+                $('#team_iframe').attr('src', path + '/lack_of_authority');
+            }
+        }
+    }
+});
+
 var currentUser;
 ajax(path + "/user/myself", null, loginUserCallback);
 function loginUserCallback (res){
