@@ -33,7 +33,7 @@ $(document).ready(function () {
                 return "<span>" + result + " </span>";
             },
             "commands": function (column, row) {
-                return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-pencil\"></span></button> " +
+                return "<button type=\"button\" class=\"btn btn-xs btn-default command-info\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-info-sign\"></span></button> " +
                     "<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
                     "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
             },
@@ -58,15 +58,14 @@ $(document).ready(function () {
             }
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
-        grid.find(".command-edit").on("click", function (e) {
+        grid.find(".command-info").on("click", function (e) {
             var id = $(this).data("row-id");
-            ajax(path + "/project/findOne", {
+            ajax(path + "/task/findOne", {
                 id: id
             }, getInfoCallback);
             function getInfoCallback(res) {
                 if (res.code == 1) {
-                    var project = res.data;
-                    tempName = project.projectName;
+                    var task = res.data;
                     $('#projectName1').val(tempName);
                     $('#remarke1').val(project.remark);
                     $('#updateProjectModal').modal("show");
