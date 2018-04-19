@@ -30,7 +30,7 @@ $('#team_lab').click(function() {
         if (res.code == 1) {
             var user = res.data;
             if (user.role == 0) {
-                $('#team_iframe').attr('src', path + '/my_task_list');
+                $('#team_iframe').attr('src', path + '/userList');
             } else {
                 $('#team_iframe').attr('src', path + '/lack_of_authority');
             }
