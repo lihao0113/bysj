@@ -19,7 +19,7 @@ $(document).ready(function () {
         formatters: {
             "taskState": function (column, row) {
                 var result;
-                switch (row.projectState) {
+                switch (row.taskState) {
                     case "0":
                         result = "未开始"
                         break;
@@ -36,25 +36,6 @@ $(document).ready(function () {
                 return "<button type=\"button\" class=\"btn btn-xs btn-default command-info\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-info-sign\"></span></button> " +
                     "<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
                     "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
-            },
-            "progress": function (column, row) {
-                var value = 0;
-                $.ajax({
-                    type: 'POST',
-                    url: path + "/project/progress",
-                    data: {id: row.id},
-                    dataType: 'json',
-                    async: false,
-                    success: function (res) {
-                        value = parseInt(res.value);
-                    }
-                });
-                return "<div class=\"progress\" style=\"width:120px\">" +
-                    "<div class=\"progress-bar progress-bar-success\" role=\"progressbar\" aria-valuenow=\"" + value + "\"" +
-                    "aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:" + parseInt(value) + "%;\">" +
-                    "<span class=\"sr-only\">" + value + "% 完成</span>" +
-                    "</div>" +
-                    "</div>";
             }
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
@@ -66,46 +47,57 @@ $(document).ready(function () {
             function getInfoCallback(res) {
                 if (res.code == 1) {
                     var task = res.data;
-                    $('#projectName1').val(tempName);
-                    $('#remarke1').val(project.remark);
-                    $('#updateProjectModal').modal("show");
+                    $('#taskName').val(task.taskName);
+                    $('#remarke').val(task.remark);
+                    $('#projectName').val(task.projectName);
+                    $('#assignName').val(task.assignName);
+                    $('#seeTaskModal').modal("show");
                 } else {
-                    showToast(res.data, 'success');
+                    showToast(res.info, 'error');
                 }
             }
         }).end().find(".command-delete").on("click", function (e) {
-            if (confirm("你确定要删除此条记录?")) {
-                ajax(path + "/project/delete", {
+                ajax(path + "/task/delete", {
                     id: $(this).data("row-id")
                 }, deleteCallback);
                 function deleteCallback(res) {
                     if (res.code == 1) {
-                        showToast(res.data, 'success');
+                        showToast(res.info, 'success');
                     } else {
-                        showToast(res.data, 'error');
+                        showToast(res.info, 'error');
                     }
                     $("#grid-data").bootgrid("reload");
                 }
 
                 $("#grid-data").bootgrid("reload");
-            }
         }).end().find(".command-finshed").on("click", function (e) {
-            if (confirm("你确定要完成此项目吗?")) {
-                ajax(path + "/project/finshed", {
+                ajax(path + "/task/finshed", {
                     id: $(this).data("row-id")
                 }, finshedCallback);
                 function finshedCallback(res) {
                     if (res.code == 1) {
-                        showToast(res.data, 'success');
+                        showToast(res.info, 'success');
                     } else {
-                        showToast(res.data, 'error');
+                        showToast(res.info, 'error');
                     }
                     $("#grid-data").bootgrid("reload");
                 }
 
                 $("#grid-data").bootgrid("reload");
-            }
         });
 
     });
+
+    function showToast(message, state) {
+        $.Toast("", message, state, {
+            stack : true,
+            has_icon : false,
+            has_close_btn : true,
+            fullscreen : false,
+            timeout : 2000,
+            sticky : true,
+            has_progress : false,
+            rtl : false,
+        });
+    }
 });
