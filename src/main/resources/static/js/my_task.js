@@ -34,8 +34,8 @@ $(document).ready(function () {
             },
             "commands": function (column, row) {
                 return "<button type=\"button\" class=\"btn btn-xs btn-default command-info\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-info-sign\"></span></button> " +
-                    "<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button>" +
-                    "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-trash\"></span></button> ";
+                    "<button type=\"button\" class=\"btn btn-xs btn-default command-start\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-play\"></span></button>" +
+                    "<button type=\"button\" class=\"btn btn-xs btn-default command-finshed\" data-row-id=\"" + row.id + "\"><span class=\"glyphicon glyphicon-ok\"></span></button> ";
             }
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
@@ -44,6 +44,7 @@ $(document).ready(function () {
             ajax(path + "/task/findOne", {
                 id: id
             }, getInfoCallback);
+
             function getInfoCallback(res) {
                 if (res.code == 1) {
                     var task = res.data;
@@ -56,48 +57,51 @@ $(document).ready(function () {
                     showToast(res.info, 'error');
                 }
             }
-        }).end().find(".command-delete").on("click", function (e) {
-                ajax(path + "/task/delete", {
-                    id: $(this).data("row-id")
-                }, deleteCallback);
-                function deleteCallback(res) {
-                    if (res.code == 1) {
-                        showToast(res.info, 'success');
-                    } else {
-                        showToast(res.info, 'error');
-                    }
-                    $("#grid-data").bootgrid("reload");
-                }
+        }).end().find(".command-start").on("click", function (e) {
+            var id = $(this).data("row-id");
+            ajax(path + "/task/start", {
+                id: id
+            }, startCallback);
 
+            function startCallback(res) {
+                if (res.code == 1) {
+                    showToast(res.info, 'success');
+                } else {
+                    showToast(res.info, 'error');
+                }
                 $("#grid-data").bootgrid("reload");
+            }
+
+            $("#grid-data").bootgrid("reload");
         }).end().find(".command-finshed").on("click", function (e) {
-                ajax(path + "/task/finshed", {
-                    id: $(this).data("row-id")
-                }, finshedCallback);
-                function finshedCallback(res) {
-                    if (res.code == 1) {
-                        showToast(res.info, 'success');
-                    } else {
-                        showToast(res.info, 'error');
-                    }
-                    $("#grid-data").bootgrid("reload");
-                }
+            ajax(path + "/task/finshed", {
+                id: $(this).data("row-id")
+            }, finshedCallback);
 
+            function finshedCallback(res) {
+                if (res.code == 1) {
+                    showToast(res.info, 'success');
+                } else {
+                    showToast(res.info, 'error');
+                }
                 $("#grid-data").bootgrid("reload");
+            }
+
+            $("#grid-data").bootgrid("reload");
         });
 
     });
 
     function showToast(message, state) {
         $.Toast("", message, state, {
-            stack : true,
-            has_icon : false,
-            has_close_btn : true,
-            fullscreen : false,
-            timeout : 2000,
-            sticky : true,
-            has_progress : false,
-            rtl : false,
+            stack: true,
+            has_icon: false,
+            has_close_btn: true,
+            fullscreen: false,
+            timeout: 2000,
+            sticky: true,
+            has_progress: false,
+            rtl: false,
         });
     }
 });
