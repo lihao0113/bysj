@@ -125,7 +125,8 @@ function echartsCallback(res) {
 			],
 			yAxis : [
 				{
-					type : 'value'
+					type : 'value',
+                    max: 100
 				}
 			],
 			series : [

@@ -26,6 +26,6 @@ spring:
     prefix: classpath:/templates/
   http:
     multipart:
-      max-file-size: 100Mb
-      max-request-size: 100Mb
+      max-file-size: 500Mb
+      max-request-size: 500Mb
 

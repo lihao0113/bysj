@@ -109,7 +109,7 @@ public class SysUserService {
 	public JSONObject findAll() {
 		JSONObject result = new JSONObject();
 		try {
-			List<SysUser> userList = userRepository.findAll();
+			List<SysUser> userList = userRepository.findAllStaff();
 			result.put("code", 1);
 			result.put("data", userList);
 			return result;

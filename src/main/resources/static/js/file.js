@@ -17,25 +17,31 @@ function fileList(res) {
 
 function fileUpload() {
 	var formData = new FormData();
-	formData.append('file', $('#file')[0].files[0]);
-	$.ajax({
-		url : 'file/upload',
-		type : 'POST',
-		cache : false,
-		data : formData,
-		processData : false,
-		contentType : false
-	}).done(function(res) {
-		showToast(res, 'success');
-		$('#fileList').html('<li style="height:45px;position:relative;" class="list-group-item">' +
-			'<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">序号</span>' +
-			'<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">文件名</span>' +
-			'<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">下载/删除</span>' +
-			'</li>');
-		ajax(path + "/file/fileList", null, fileList);
-	}).fail(function(res) {
-		showToast(res, 'error');
-	});
+	var file = $('#file')[0].files[0];
+	if (typeof file === "undefined") {
+        showToast("请选择文件", 'error');
+	} else {
+        formData.append('file', file);
+        $.ajax({
+            url : 'file/upload',
+            type : 'POST',
+            cache : false,
+            data : formData,
+            processData : false,
+            contentType : false
+        }).done(function(res) {
+            showToast(res, 'success');
+            $('#fileList').html('<li style="height:45px;position:relative;" class="list-group-item">' +
+                '<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">序号</span>' +
+                '<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">文件名</span>' +
+                '<span style="float:left;width:33.3333%;text-align: center;font-weight:bold;">下载/删除</span>' +
+                '</li>');
+            ajax(path + "/file/fileList", null, fileList);
+        }).fail(function(res) {
+            showToast(res, 'error');
+        });
+	}
+
 }
 
 function download(which) {

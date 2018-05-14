@@ -19,4 +19,7 @@ public interface SysUserRepository extends JpaRepository<SysUser, Integer> {
     
     @Query(nativeQuery = true, value = "SELECT * from sys_user s WHERE s.id LIKE CONCAT('%',?1,'%') OR s.username LIKE CONCAT('%',?1,'%') OR s.create_time LIKE CONCAT('%',?1,'%')")
     List<SysUser> findAllList(String searchPhrase);
+
+    @Query(nativeQuery = true, value = "SELECT * from sys_user WHERE role='2'")
+    List<SysUser> findAllStaff();
 }

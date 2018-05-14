@@ -265,11 +265,11 @@ public class TaskService {
                 result.put("info", "任务已完成");
                 return result;
             } else {
+                task.setFinishName(username);
+                task.setTaskState(TaskState.FINISH.toString());
                 Logger logger = LogUtil.getLogger(null, task, "完成了任务");
                 project.setProjectState(TaskState.STARTING.toString());
                 projectRepository.save(project);
-                task.setFinishName(username);
-                task.setTaskState(TaskState.FINISH.toString());
                 loggerRepository.save(logger);
                 taskRepository.save(task);
                 result.put("code", 1);
