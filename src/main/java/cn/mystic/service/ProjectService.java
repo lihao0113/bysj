@@ -249,8 +249,8 @@ public class ProjectService {
 						taskRepository.delete(task);
 					}
 				}
-				Logger logger = LogUtil.getLogger(project, null, "删除了项目");
-				loggerRepository.save(logger);
+//				Logger logger = LogUtil.getLogger(project, null, "删除了项目");
+//				loggerRepository.save(logger);
 				projectRepository.delete(project);
 				result.put("code", 1);
 				result.put("data", "项目删除成功");

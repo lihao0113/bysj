@@ -204,8 +204,8 @@ public class TaskService {
                 task.setProject(null);
                 taskRepository.delete(task);
             }
-            Logger logger = LogUtil.getLogger(null, task, "删除了任务");
-            loggerRepository.save(logger);
+//            Logger logger = LogUtil.getLogger(null, task, "删除了任务");
+//            loggerRepository.save(logger);
             result.put("code", 1);
             result.put("info", "删除成功");
         } catch (Exception e) {

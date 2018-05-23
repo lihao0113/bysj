@@ -79,6 +79,8 @@ $('#sumbitPass').click(function () {
                 var message = res.data;
                 showToast(message, 'success');
                 $("#updatePassModal").modal('hide');
+                clearCookie();
+                window.location.href = path + "/login";
             } else {
                 showToast(message, 'error');
             }

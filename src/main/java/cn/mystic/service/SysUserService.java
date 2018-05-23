@@ -48,13 +48,15 @@ public class SysUserService {
 			}
 			JSONArray array = new JSONArray();
 			for (SysUser item : users) {
-				array.add(item);
+				if (!"admin".equals(item.getUsername())) {
+					array.add(item);
+				}
 			}
 			int total = userList.size();
 			result.put("current", current);
 			result.put("rowCount", rowCount);
 			result.put("rows", array);
-			result.put("total", total);
+			result.put("total", total - 1);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();

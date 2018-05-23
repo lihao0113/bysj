@@ -136,7 +136,16 @@ function echartsCallback(res) {
 					barWidth : '60%',
 					data : yData
 				}
-			]
+			],
+			label : {
+				normal:{
+					show: true,
+					position : 'top',
+					textStyle : {
+						color : 'black'
+					}
+				}
+			}
 		};
 
 		var demo = echarts.init(document.getElementById("echart_demo"));
